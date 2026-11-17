@@ -1,6 +1,6 @@
 ---
 name: hitrust-ai-assess
-description: Walks an AI system through the HITRUST AI Security Assessment (ai2 with r2, or ai1 with e1/i1) - tailoring, the up-to-44 AI security requirements and their evaluative elements, PRISMA maturity scoring and the certification threshold - using a web questionnaire the assessor fills in during interviews, then importing and reviewing the answers with a running AI score and CAP list. Use when the user says "HITRUST AI assessment", "ai2", "ai1", "AI security certification", "assess an AI system", "build the AI questionnaire", "sync the AI answers", "where are we on <client> AI", "AI readiness", or names a requirement like LM-01 or 12.09abAISecSystem.6.
+description: Walks an AI system through the HITRUST AI Security Assessment (ai2 with r2, or ai1 with e1/i1) - tailoring, the up-to-44 AI security requirements and their evaluative elements, PRISMA maturity scoring and the certification threshold - using a web questionnaire the assessor fills in during interviews, then importing and reviewing the answers with a running AI score and CAP list. Use when the user says "HITRUST AI assessment", "ai2", "ai1", "AI security certification", "assess an AI system", "build the AI questionnaire", "sync the AI answers", "where are we on the client AI assessment", "AI readiness", or names a requirement like LM-01 or 12.09abAISecSystem.6.
 ---
 
 # HITRUST AI security assessment walkthrough (ai2 / ai1)
