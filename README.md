@@ -1,4 +1,4 @@
-# HITRUST AI Wizard v0.1
+# HITRUST AI Wizard v0.2
 
 A readiness assistant for the HITRUST AI Security Assessment: **ai2** (added to an r2) and **ai1** (added to an e1 or i1). It uses the same method as the CMMC Wizard: one JSON workbook per engagement, a private questionnaire page you fill in during interviews, "sync" to import and review, and a running score.
 
@@ -28,13 +28,36 @@ A readiness assistant for the HITRUST AI Security Assessment: **ai2** (added to 
 - The header keeps the provisional AI average against the threshold, requirements rated, elements done and CAP candidates.
 - Answers save as you type to the page's own database, readable and writable only by you and editors you add. Do not type PHI, PII or model secrets into it.
 
+## Template kit
+`generate_templates.py` writes a Word and Excel template kit for an engagement, filled from its workbook: client, system, assessor, owners, models, providers and tailoring. Sections, rows and tabs tied to requirements or system characteristics that tailoring rules out are left out; unanswered tailoring keeps everything.
+
+```
+pip install -r requirements.txt
+python3 skills/hitrust-ai-assess/scripts/generate_templates.py gulf-coast-clinic-ai2-assessment.json --zip
+```
+
+| File | For | Supports |
+|---|---|---|
+| 01 AI Security Policy | Client | Policy level for every AI requirement; GV-02 coverage map for existing policies |
+| 02 AI Security Procedures (P1–P10) | Client | Procedure level: owner, frequency, steps, record |
+| 03 System Design & Model Documentation | Client | DV-06, DV-07, SC-02, IN-04, AX-01; safeguards as built; human oversight (GV-03) |
+| 04 AI Threat Model & Security Evaluation Report | Client | TM-01 to TM-03, MR-03; HITRUST AI threat basis with OWASP / MITRE ATLAS / NIST references |
+| 05 AI Incident Response Playbook | Client | RS-01: AI scenarios, SIEM detections, incident record, tabletop |
+| 06 AI Legal, Regulatory & Data-Use Assessment | Client | LC-01, LC-02, MR-01 |
+| 07 AI Security Registers (.xlsx) | Client | RACI, AI inventory, threat register, data inventory, trusted sources, providers, change log, access review, monitoring log, backup and restore, training, review log |
+| A1 Interview Guide & Test Scripts | Assessor | Six interview sessions, questions by role, twelve show-me tests |
+| A2 Readiness Assessment Report | Assessor | Summary, tailoring, scores by topic and requirement, CAP candidates and gaps, from the current workbook |
+| A3 Evidence Request List & CAP Tracker (.xlsx) | Assessor | Evidence, template, interviewee and test per requirement; CAP candidates |
+
+Regenerate the assessor files after each sync. The template text lives in `templates_content.py`; edit it there to change wording for every future engagement.
+
 ## Scoring caveats
 - Readiness estimate only. MyCSF scoring and HITRUST QA decide certification and CAPs.
 - The ai1/ai2 certificate also requires the underlying e1/i1/r2 to certify. This tool scores only the AI requirements.
 - HITRUST's per-requirement tailoring text and its summary count table disagree for some generative and predictive combinations. The tool follows the per-requirement text; set a requirement's Scope to match the client's MyCSF object where they differ.
 
 ## Requirements
-- Python 3.9+, standard library only.
+- Python 3.9+. The assessment scripts use the standard library only; the template generator needs `python-docx` and `openpyxl` (`pip install -r requirements.txt`).
 - The questionnaire page needs Claude artifacts with the page database capability.
 
 ## Data

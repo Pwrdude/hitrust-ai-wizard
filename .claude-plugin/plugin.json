@@ -1,7 +1,7 @@
 {
   "name": "hitrust-ai-wizard",
-  "version": "0.1.0",
-  "description": "HITRUST AI Wizard v0.1: HITRUST AI Security Assessment (ai2 with r2, ai1 with e1/i1) readiness assistant built on the CMMC Wizard method. Answer the three MyCSF tailoring questions, fill in a web questionnaire for the up-to-44 AI security requirements and their evaluative elements during interviews, then import and review the answers with PRISMA maturity scoring, the 62/83 certification threshold and CAP candidates.",
+  "version": "0.2.0",
+  "description": "HITRUST AI Wizard v0.2: HITRUST AI Security Assessment (ai2 with r2, ai1 with e1/i1) readiness assistant built on the CMMC Wizard method. Answer the three MyCSF tailoring questions, fill in a web questionnaire for the up-to-44 AI security requirements and their evaluative elements during interviews, then import and review the answers with PRISMA maturity scoring, the 62/83 certification threshold and CAP candidates, plus a Word and Excel template kit generated from the workbook.",
   "author": {
     "name": "T. Williams"
   },

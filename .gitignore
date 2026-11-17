@@ -5,3 +5,5 @@ __pycache__/
 *-questionnaire-seed/
 answers-*/
 .DS_Store
+*-templates/
+*-templates.zip

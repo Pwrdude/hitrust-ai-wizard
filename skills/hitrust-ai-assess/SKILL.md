@@ -20,6 +20,7 @@ Run a requirement-by-requirement HITRUST AI security readiness assessment the wa
   - `record.py`: record element results, maturity ratings, narrative fields, tailoring, level, CAP fields and system fields from chat.
   - `status.py`: progress by topic, next open elements, one requirement in full.
   - `score.py`: AI score, threshold verdict, CAP candidates, gaps, domain averages; `--md` writes a readiness report.
+  - `generate_templates.py`: the template kit in Word and Excel, filled from the workbook and cut to its tailoring (needs `python-docx` and `openpyxl`). `templates_content.py` holds the text; `docx_writer.py` and `xlsx_writer.py` render it.
 - `assets/questionnaire-template.html`: the page. Do not edit per engagement.
 - `references/requirements.json`: the 44 requirements (HITRUST IDs, domain, control reference, inheritability, tailoring, evaluative elements). Prefer the scripts and topic files over reading it.
 - `references/topics/<CODE>.md`: one file per topic (TM GV DV LC SC MR AX EN LM IN FS RS). Read one at a time.
@@ -80,10 +81,15 @@ Then push the change to the page: rebuild the seed, and for each changed require
 - "Where are we": `status.py <wb>` (`--topic AX` or `--req LM-01` for detail). Sync first if the form was used since the last import.
 - Flag at once when the provisional average drops below the threshold or a requirement scores below the CAP line.
 
-### 8. Finish
+### 8. Template kit
+When the client needs evidence templates, or the assessor needs the interview guide, evidence request list or report:
+  `generate_templates.py <wb> [--out DIR] [--only client|assessor] [--zip]`
+writes six client templates (AI Security Policy, AI Security Procedures, System Design & Model Documentation, Threat Model & Security Evaluation Report, AI Incident Response Playbook, Legal, Regulatory & Data-Use Assessment), the AI Security Registers workbook, and the assessor's Interview Guide & Test Scripts, Readiness Assessment Report and Evidence Request List & CAP Tracker. Generate after tailoring is settled: unanswered tailoring keeps every section, answered tailoring drops what does not apply. Regenerate the report and the evidence list after each sync; they carry the current scores, CAP candidates and scope. Send the client folder only to the client; the `assessor/` folder is a working paper. If `python-docx` or `openpyxl` is missing, install with `pip install -r requirements.txt` from the repo root.
+
+### 9. Finish
 When every in-scope element has a result and the ratings are confirmed:
 1. Sync once more, then `score.py <wb> --md "<client> HITRUST AI readiness.md"`; give the average, the verdict, the CAP candidates and the gaps.
-2. Offer to turn it into a client deliverable (readiness report doc, CAP tracker sheet) and to draft CAP entries for each candidate.
+2. Run `generate_templates.py <wb> --only assessor` for the readiness report and CAP tracker, and offer to draft CAP entries for each candidate.
 
 ## Rules
 - Readiness estimates only. HITRUST scores in MyCSF and its QA decides certification and CAPs; say so in any client-facing output.
