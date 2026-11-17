@@ -1,0 +1,812 @@
+<title>__PAGE_TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: assessor's field form. Sticky score bar, family rail on the left, one family of requirement cards at a time. */
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --sunken: #eceef2;
+  --fg: #1b2230;
+  --muted: #5b6474;
+  --line: #d6dae2;
+  --accent: #1f4b8f;
+  --accent-soft: #e3ebf7;
+  --met: #1d7a46;
+  --met-soft: #e1f2e8;
+  --notmet: #b3261e;
+  --notmet-soft: #fbe5e3;
+  --na: #6b6f7a;
+  --na-soft: #ebecef;
+  --warn: #8a5a00;
+  --warn-soft: #fbf0d9;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a1f28; --sunken: #222834; --fg: #e4e8ef; --muted: #9aa3b2; --line: #313847;
+    --accent: #8fb2ec; --accent-soft: #233350; --met: #6fcf97; --met-soft: #183526; --notmet: #f28b82; --notmet-soft: #3d1f1d;
+    --na: #a7abb5; --na-soft: #2a2e37; --warn: #e8bd6a; --warn-soft: #3a2e14; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a1f28; --sunken: #222834; --fg: #e4e8ef; --muted: #9aa3b2; --line: #313847;
+  --accent: #8fb2ec; --accent-soft: #233350; --met: #6fcf97; --met-soft: #183526; --notmet: #f28b82; --notmet-soft: #3d1f1d;
+  --na: #a7abb5; --na-soft: #2a2e37; --warn: #e8bd6a; --warn-soft: #3a2e14; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--font-body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Header */
+header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.head-in { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-block: 12px; max-width: 1280px; margin: 0 auto; }
+.ident { flex: 1 1 280px; min-width: 0; }
+.ident h1 { font-size: 20px; font-weight: 600; line-height: 1.2; }
+.ident p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+.stat { display: flex; flex-direction: column; }
+.stat .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.stat .v { font-family: var(--font-mono); font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stat .v small { font-size: 12px; color: var(--muted); }
+.save { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; min-width: 120px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--na); flex: none; }
+.save[data-s="saved"] .dot { background: var(--met); }
+.save[data-s="saving"] .dot { background: var(--warn); }
+.save[data-s="error"] .dot { background: var(--notmet); }
+.progress { height: 3px; background: var(--sunken); }
+.progress > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+@media (prefers-reduced-motion: reduce) { .progress > i { transition: none; } }
+
+.banner { max-width: 1280px; margin: 12px auto 0; }
+.banner > div { background: var(--warn-soft); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; font-size: 13px; }
+
+/* Shell */
+.shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; max-width: 1280px; margin: 0 auto; padding-block: 20px 64px; }
+nav.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 92px); align-self: start; display: flex; flex-direction: column; gap: 2px; max-height: calc(100vh - 120px); overflow-y: auto; }
+.rail button { all: unset; cursor: pointer; display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center; padding: 7px 10px; border-radius: 6px; font-size: 13px; color: var(--fg); }
+.rail button:hover { background: var(--sunken); }
+.rail button[aria-current="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.rail button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.rail .code { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.rail button[aria-current="true"] .code { color: var(--accent); }
+.rail .cnt { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rail .cnt.done { color: var(--met); }
+.rail .sep { height: 1px; background: var(--line); margin: 6px 4px; }
+.rail-select { display: none; }
+
+main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.section-head h2 { font-size: 24px; font-weight: 600; }
+.section-head p { margin: 4px 0 0; color: var(--muted); max-width: 70ch; }
+.filters { display: flex; gap: 4px; background: var(--sunken); padding: 3px; border-radius: 8px; }
+.filters button { all: unset; cursor: pointer; padding: 5px 10px; border-radius: 6px; font-size: 12.5px; color: var(--muted); }
+.filters button[aria-pressed="true"] { background: var(--surface); color: var(--fg); font-weight: 600; box-shadow: 0 1px 2px rgb(0 0 0 / .08); }
+.filters button:focus-visible { outline: 2px solid var(--accent); }
+
+/* Requirement card */
+.req { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.req[data-status="NOT MET"] { border-left: 4px solid var(--notmet); }
+.req[data-status="MET"] { border-left: 4px solid var(--met); }
+.req[data-status="N/A"] { border-left: 4px solid var(--na); }
+.req-top { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: flex-start; padding: 14px 16px 10px; }
+.req-title { min-width: 0; flex: 1 1 320px; }
+.req-title .id { font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); font-weight: 500; }
+.req-title h3 { font-size: 17px; font-weight: 600; margin-top: 2px; }
+.req-title blockquote { margin: 6px 0 0; color: var(--fg); max-width: 75ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--muted); white-space: nowrap; font-weight: 500; }
+.chip.pts { font-family: var(--font-mono); text-transform: none; letter-spacing: 0; }
+.chip.block { background: var(--notmet-soft); color: var(--notmet); }
+.chip.st-MET { background: var(--met-soft); color: var(--met); }
+.chip.st-NOTMET { background: var(--notmet-soft); color: var(--notmet); }
+.chip.st-NA { background: var(--na-soft); color: var(--na); }
+.chip.st-OPEN { background: var(--sunken); color: var(--muted); }
+
+.objs { border-top: 1px solid var(--line); }
+.obj { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.obj:last-child { border-bottom: 0; }
+.obj-q { min-width: 0; }
+.obj-q .oid { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-right: 6px; }
+.obj-q .kind { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; align-self: start; }
+.seg label { position: relative; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span { display: block; padding: 5px 10px; font-size: 12px; font-weight: 600; color: var(--muted); border-left: 1px solid var(--line); white-space: nowrap; }
+.seg label:first-child span { border-left: 0; }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: -2px; }
+.seg input[value="MET"]:checked + span { background: var(--met-soft); color: var(--met); }
+.seg input[value="NOT MET"]:checked + span { background: var(--notmet-soft); color: var(--notmet); }
+.seg input[value="N/A"]:checked + span { background: var(--na-soft); color: var(--na); }
+.seg input[value="NOT ASSESSED"]:checked + span { background: var(--sunken); color: var(--fg); }
+.obj-fields { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px 12px; align-items: start; }
+.methods { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 6px; }
+.methods label { display: inline-flex; gap: 4px; align-items: center; font-size: 12px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+
+.field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.field > span { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; }
+input[type="text"], input[type="number"], input[type="email"], textarea, select {
+  font: inherit; font-size: 13.5px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; width: 100%; min-width: 0;
+}
+textarea { resize: vertical; min-height: 38px; line-height: 1.45; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+
+details.ssp { border-top: 1px solid var(--line); background: var(--sunken); }
+details.ssp > summary { cursor: pointer; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--fg); list-style: none; display: flex; gap: 8px; align-items: center; }
+details.ssp > summary::-webkit-details-marker { display: none; }
+details.ssp > summary::before { content: "▸"; color: var(--muted); font-size: 11px; transition: transform .15s; }
+details.ssp[open] > summary::before { transform: rotate(90deg); }
+details.ssp > summary .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
+.ssp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; padding: 4px 16px 16px; }
+.ssp-grid .wide { grid-column: 1 / -1; }
+.prov { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 6px; }
+
+/* Scope form */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.panel h3 { font-size: 16px; font-weight: 600; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 14px; }
+.grid2 .wide, .grid3 .wide { grid-column: 1 / -1; }
+.esp-table { width: 100%; border-collapse: collapse; }
+.esp-wrap { overflow-x: auto; }
+.esp-table th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; padding: 0 6px 4px 0; }
+.esp-table td { padding: 3px 6px 3px 0; vertical-align: top; min-width: 120px; }
+.btn { all: unset; cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--accent); padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.btn:hover { background: var(--accent-soft); }
+.btn:focus-visible { outline: 2px solid var(--accent); }
+.btn.quiet { color: var(--muted); font-weight: 500; }
+.empty { color: var(--muted); font-size: 13px; padding: 24px; text-align: center; background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; }
+footer.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: 12px; }
+footer.tools textarea { font-family: var(--font-mono); font-size: 11.5px; min-height: 120px; }
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  nav.rail { display: none; }
+  .rail-select { display: block; }
+  .obj-fields { grid-template-columns: minmax(0, 1fr); }
+  .ssp-grid, .grid2, .grid3 { grid-template-columns: minmax(0, 1fr); }
+  .stats { gap: 6px 14px; }
+  .stat .v { font-size: 16px; }
+}
+@media (max-width: 520px) {
+  .obj { grid-template-columns: minmax(0, 1fr); }
+  .seg { width: 100%; }
+  .seg label { flex: 1; text-align: center; }
+  .seg span { padding: 6px 4px; font-size: 11px; }
+}
+/* HITRUST additions */
+.chip.inh-Fully { background: var(--met-soft); color: var(--met); }
+.chip.inh-Partially { background: var(--warn-soft); color: var(--warn); }
+.chip.cap { background: var(--notmet-soft); color: var(--notmet); }
+.chip.score { font-family: var(--font-mono); text-transform: none; letter-spacing: 0; background: var(--accent-soft); color: var(--accent); }
+.req-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.req-note { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; max-width: 75ch; }
+.obj.na-tail { opacity: .62; }
+.cov { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 6px; }
+.cov label { display: inline-flex; gap: 4px; align-items: center; font-size: 12px; color: var(--fg); cursor: pointer; white-space: nowrap; font-weight: 500; }
+.cov .divider { width: 1px; background: var(--line); align-self: stretch; }
+.mat { border-top: 1px solid var(--line); padding: 12px 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 14px; align-items: end; }
+.mat .field small { color: var(--muted); font-size: 11.5px; }
+.mat .total { font-family: var(--font-mono); font-size: 20px; font-weight: 500; }
+.mat .total small { font-size: 12px; color: var(--muted); }
+.mat-head { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mat-head h4 { margin: 0; font-family: var(--font-display); font-size: 14px; font-weight: 600; }
+.mat-head span { font-size: 12px; color: var(--muted); }
+.tail-q { display: flex; flex-direction: column; gap: 6px; }
+.tail-q > span { font-size: 13px; font-weight: 600; }
+.tail-q small { color: var(--muted); font-size: 12px; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.checks label { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; cursor: pointer; }
+.yn { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; width: max-content; }
+.yn label { position: relative; cursor: pointer; }
+.yn input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.yn span { display: block; padding: 4px 12px; font-size: 12.5px; font-weight: 600; color: var(--muted); border-left: 1px solid var(--line); }
+.yn label:first-child span { border-left: 0; }
+.yn input:checked + span { background: var(--accent-soft); color: var(--accent); }
+.yn input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: -2px; }
+.scope-sum { font-size: 13px; color: var(--fg); background: var(--accent-soft); border-radius: 6px; padding: 10px 12px; }
+details.outlist { background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--muted); }
+details.outlist summary { cursor: pointer; font-weight: 600; color: var(--fg); }
+details.outlist li { margin: 4px 0; }
+.verdict { font-size: 12.5px; color: var(--muted); margin: 0; }
+</style>
+
+<header>
+  <div class="head-in gutter">
+    <div class="ident">
+      <h1 id="h-client"></h1>
+      <p id="h-sub"></p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k" id="s-score-k">AI score (provisional)</span><span class="v" id="s-score">— <small>/ 62</small></span></div>
+      <div class="stat"><span class="k">Requirements</span><span class="v" id="s-req">0 <small>/ 0</small></span></div>
+      <div class="stat"><span class="k">Elements</span><span class="v" id="s-el">0 <small>/ 0</small></span></div>
+      <div class="stat"><span class="k">CAP candidates</span><span class="v" id="s-cap">0</span></div>
+      <div class="save" id="save" data-s="idle" role="status" aria-live="polite"><span class="dot"></span><span id="save-t">Connecting…</span></div>
+    </div>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</header>
+
+<div class="banner gutter" id="banner" hidden><div id="banner-t"></div></div>
+
+<div class="shell gutter">
+  <nav class="rail" id="rail" aria-label="Sections"></nav>
+  <main>
+    <select class="rail-select" id="rail-select" aria-label="Section"></select>
+    <p class="verdict" id="verdict"></p>
+    <div id="view"></div>
+    <footer class="tools">
+      <button class="btn quiet" id="export-btn" type="button">Copy all answers as JSON</button>
+      <span id="export-msg"></span>
+      <textarea id="export-box" hidden readonly aria-label="Answers as JSON"></textarea>
+    </footer>
+  </main>
+</div>
+
+<script type="application/json" id="ai-data">__AI_DATA__</script>
+<script>
+(function () {
+  "use strict";
+  const DATA = JSON.parse(document.getElementById("ai-data").textContent);
+  const REQS = DATA.requirements;
+  const BY_ID = Object.fromEntries(REQS.map(r => [r.id, r]));
+  const TOPICS = DATA.topics;
+  const COND = DATA.cond_text, REQUIRES = DATA.requires_text;
+  const RESULTS = ["MET", "NOT MET", "N/A", "NOT ASSESSED"];
+  const METHODS = ["Examine", "Interview", "Test"];
+  const LEVELS = ["policy", "procedure", "implemented", "measured", "managed"];
+  const LNAME = { policy: "Policy", procedure: "Procedure", implemented: "Implemented", measured: "Measured", managed: "Managed" };
+  const W = DATA.weights;
+  const RATE = [[0, "NC"], [25, "SC"], [50, "PC"], [75, "MC"], [100, "FC"]];
+  const ABBR = Object.fromEntries(RATE);
+  const MODEL_TYPES = [["rule", "Rule-based (expert system)"], ["predictive", "Predictive (non-generative ML)"], ["generative", "Generative (foundation model)"]];
+  const DRAFT_KEY = "hitrust-ai-q-draft:" + (DATA.meta.engagement_id || "x");
+
+  // ---------- state ----------
+  const state = { responses: {}, scope: blankScope() };
+  let db = null, readOnly = false, ready = false, current = "SCOPE", filter = "all";
+  const locked = () => readOnly || !ready;
+
+  function blankTail() { return { model_types: [], q2: null, q3: null, rag: null, finetune: null, tools: null, external_models: null, model_builder: null }; }
+  function blankScope() {
+    return { level: "ai2", measured_managed: false, tailoring: blankTail(), description: "", deployment: "", boundary: "", ai_platforms: "", data_sources: "",
+      end_users: "", privileged_users: "", diagram_reference: "", inventory_reference: "", system_owner: {}, ai_governance_lead: {}, security_officer: {},
+      models: [], providers: [] };
+  }
+  function blankEl() { return { result: "NOT ASSESSED", policy: false, procedure: false, evidence: "", notes: "", methods: [] }; }
+  function blankResp(rid) {
+    const e = {}; BY_ID[rid].elements.forEach(x => { e[x.id] = blankEl(); });
+    return { req: rid, elements: e, maturity: { policy: null, procedure: null, implemented: null, measured: null, managed: null }, scope_override: null,
+      interviewees: "", implementation: "", planned_implementation: "", na_justification: "", responsible: "", provider: "Customer", evidence: "", notes: "", measured: "", managed: "" };
+  }
+  function resp(rid) { if (!state.responses[rid]) state.responses[rid] = blankResp(rid); return state.responses[rid]; }
+  function merge(rid, body) {
+    const out = Object.assign(blankResp(rid), body || {});
+    out.elements = Object.assign(blankResp(rid).elements, (body && body.elements) || {});
+    Object.keys(out.elements).forEach(k => { out.elements[k] = Object.assign(blankEl(), out.elements[k]); });
+    out.maturity = Object.assign(blankResp(rid).maturity, (body && body.maturity) || {});
+    return out;
+  }
+  function mergeScope(body) {
+    const s = Object.assign(blankScope(), body || {});
+    s.tailoring = Object.assign(blankTail(), (body && body.tailoring) || {});
+    return s;
+  }
+  const T = () => state.scope.tailoring;
+  const LEVEL = () => state.scope.level === "ai1" ? "ai1" : "ai2";
+  const MM = () => LEVEL() === "ai2" && !!state.scope.measured_managed;
+  const usedLevels = () => LEVEL() === "ai1" ? ["implemented"] : MM() ? LEVELS : ["policy", "procedure", "implemented"];
+
+  // ---------- tailoring + scoring (mirrors hitrust_lib.py) ----------
+  function inScope(rid) {
+    const r = BY_ID[rid], ov = state.responses[rid] && state.responses[rid].scope_override;
+    if (ov === "in") return [true, "included by assessor override"];
+    if (ov === "out") return [false, "excluded by assessor override"];
+    const t = T(), types = (t.model_types || []).filter(x => ["rule", "predictive", "generative"].includes(x));
+    if (!types.length) return [true, "tailoring not answered"];
+    const ap = r.applies;
+    if (!types.some(x => ap.models.includes(x))) return [false, "model type not in scope (" + ap.models.join(", ") + " only)"];
+    if (ap.trigger === "q2" && t.q2 === false) return [false, "Q2 answered no"];
+    if (ap.trigger === "q3" && t.q3 === false) return [false, "Q3 answered no"];
+    if (ap.trigger === "q2_or_q3" && t.q2 === false && t.q3 === false) return [false, "Q2 and Q3 both answered no"];
+    return [true, "in scope"];
+  }
+  const elApplicable = el => !(el.cond && T()[el.cond] === false);
+  function elState(rid, el) {
+    const e = state.responses[rid] && state.responses[rid].elements[el.id];
+    const res = e ? e.result : "NOT ASSESSED";
+    return res === "NOT ASSESSED" && !elApplicable(el) ? "N/A" : res;
+  }
+  function band(p) { if (p == null) return null; return p >= 90 ? 100 : p >= 66 ? 75 : p >= 33 ? 50 : p >= 11 ? 25 : 0; }
+  function evalReq(rid) {
+    const r = BY_ID[rid], [scope, why] = inScope(rid);
+    if (!scope) return { in_scope: false, why, status: "OUT", score: null };
+    const resp_ = state.responses[rid] || blankResp(rid);
+    const states = Object.fromEntries(r.elements.map(e => [e.id, elState(rid, e)]));
+    const app = r.elements.filter(e => states[e.id] !== "N/A");
+    const need = r.applies.requires;
+    if (need && T()[need] === false && !r.elements.some(e => ["MET", "NOT MET"].includes(states[e.id]))) return { in_scope: true, status: "N/A", na: "only when " + REQUIRES[need], score: null };
+    if (!app.length) return { in_scope: true, status: "N/A", na: "every element N/A", score: null };
+    const open = app.filter(e => states[e.id] === "NOT ASSESSED").map(e => e.id);
+    const met = app.filter(e => states[e.id] === "MET").length, n = app.length;
+    const cov = { implemented: open.length ? null : Math.round(100 * met / n),
+      policy: Math.round(100 * app.filter(e => resp_.elements[e.id].policy).length / n),
+      procedure: Math.round(100 * app.filter(e => resp_.elements[e.id].procedure).length / n) };
+    const sug = { policy: band(cov.policy), procedure: band(cov.procedure), implemented: band(cov.implemented) };
+    const final = {}, src = {};
+    usedLevels().forEach(k => {
+      const ov = resp_.maturity[k];
+      if (ov != null) { final[k] = +ov; src[k] = "assessor"; }
+      else if (sug[k] != null) { final[k] = sug[k]; src[k] = "suggested"; }
+      else { final[k] = null; src[k] = "unrated"; }
+    });
+    const complete = !open.length && usedLevels().every(k => final[k] != null);
+    let score = null;
+    if (LEVEL() === "ai1") score = final.implemented;
+    else if (complete) score = Math.round(usedLevels().reduce((s, k) => s + W[k] * (final[k] || 0) / 100, 0) * 100) / 100;
+    const status = open.length ? "NOT ASSESSED" : (met === n ? "FULLY MET" : "NOT MET");
+    const cap = score != null && score < DATA.cap_line[LEVEL()] && (final.implemented == null || final.implemented < 100);
+    return { in_scope: true, status, n, met, open, cov, sug, final, src, score, cap };
+  }
+  function overall() {
+    let sum = 0, scored = 0, counted = 0, caps = 0, elTot = 0, elDone = 0;
+    REQS.forEach(r => {
+      const e = evalReq(r.id);
+      if (!e.in_scope || e.status === "N/A") return;
+      counted++; elTot += e.n; elDone += e.n - e.open.length;
+      if (e.score != null) { sum += e.score; scored++; if (e.cap) caps++; }
+    });
+    return { avg: scored ? Math.round(sum / scored * 100) / 100 : null, scored, counted, caps, elTot, elDone };
+  }
+  function topicCounts(code) {
+    let done = 0, total = 0;
+    REQS.filter(r => r.topic_code === code).forEach(r => { const e = evalReq(r.id); if (!e.in_scope || e.status === "N/A") return; total++; if (e.score != null) done++; });
+    return { done, total };
+  }
+  function updateStats() {
+    const o = overall(), th = DATA.threshold[LEVEL()];
+    document.getElementById("s-score-k").textContent = LEVEL() + " score (provisional)";
+    const sc = document.getElementById("s-score");
+    sc.innerHTML = (o.avg == null ? "—" : o.avg.toFixed(1)) + " <small>/ " + th + "</small>";
+    sc.style.color = o.avg == null ? "" : o.avg >= th ? "var(--met)" : "var(--notmet)";
+    document.getElementById("s-req").innerHTML = o.scored + " <small>/ " + o.counted + "</small>";
+    document.getElementById("s-el").innerHTML = o.elDone + " <small>/ " + o.elTot + "</small>";
+    const c = document.getElementById("s-cap"); c.textContent = o.caps; c.style.color = o.caps ? "var(--notmet)" : "";
+    document.getElementById("prog").style.width = (o.elTot ? o.elDone / o.elTot * 100 : 0).toFixed(1) + "%";
+    const types = T().model_types || [];
+    document.getElementById("verdict").textContent = !types.length
+      ? "Answer the tailoring questions in Scope & tailoring first: they decide which of the 44 AI requirements apply."
+      : o.scored < o.counted ? "Average covers " + o.scored + " of " + o.counted + " requirements that apply. Requirements still open are left out of the average."
+      : o.avg >= th ? "Meets the " + LEVEL() + " AI threshold. Certification also needs the underlying " + (LEVEL() === "ai2" ? "r2" : "e1/i1") + " to certify." : "Below the " + LEVEL() + " AI threshold of " + th + ".";
+    renderRailCounts();
+  }
+
+  // ---------- persistence (same engine as CMMC Wizard) ----------
+  const timers = {}, inflight = {}, dirty = {}, pending = {}, lastSent = {}, retries = {};
+  function setSave(s, t) { const el = document.getElementById("save"); el.dataset.s = s; document.getElementById("save-t").textContent = t; }
+  function bodyFor(path) { return path === "scope/system" ? state.scope : state.responses[path.split("/")[1]]; }
+  function clone(v) { return v === undefined ? null : JSON.parse(JSON.stringify(v)); }
+  function mergeInto(t, s) {
+    for (const [k, v] of Object.entries(s || {})) {
+      if (v && typeof v === "object" && !Array.isArray(v) && t[k] && typeof t[k] === "object" && !Array.isArray(t[k])) mergeInto(t[k], v);
+      else t[k] = clone(v);
+    }
+    return t;
+  }
+  function schedule(path, key, sub, field) {
+    const body = bodyFor(path), patch = pending[path] || (pending[path] = {});
+    if (sub !== undefined) {
+      if (!patch[key] || typeof patch[key] !== "object" || Array.isArray(patch[key])) patch[key] = {};
+      if (field !== undefined) {
+        if (!patch[key][sub] || typeof patch[key][sub] !== "object") patch[key][sub] = {};
+        patch[key][sub][field] = clone(body[key][sub][field]);
+      } else patch[key][sub] = clone(body[key][sub]);
+    } else patch[key] = clone(body[key]);
+    dirty[path] = true;
+    saveDraft();
+    if (!db || readOnly) return;
+    setSave("saving", "Saving…");
+    clearTimeout(timers[path]);
+    timers[path] = setTimeout(() => flush(path), 700);
+  }
+  function syncInPlace(t, src) {
+    if (Array.isArray(t) && Array.isArray(src)) {
+      src.forEach((v, i) => { if (v && typeof v === "object" && t[i] && typeof t[i] === "object" && Array.isArray(v) === Array.isArray(t[i])) syncInPlace(t[i], v); else t[i] = clone(v); });
+      t.length = src.length; return t;
+    }
+    Object.keys(t).forEach(k => { if (!(k in src)) delete t[k]; });
+    Object.entries(src).forEach(([k, v]) => {
+      if (v && typeof v === "object" && t[k] && typeof t[k] === "object" && Array.isArray(v) === Array.isArray(t[k])) syncInPlace(t[k], v);
+      else t[k] = clone(v);
+    });
+    return t;
+  }
+  function flushAll() { Object.keys(dirty).forEach(p => { if (dirty[p] && !inflight[p]) { clearTimeout(timers[p]); flush(p); } }); }
+  function isStale(path, data) { return !!(lastSent[path] && data && (data.updated_at || "") < lastSent[path]); }
+  async function flush(path) {
+    if (inflight[path]) { clearTimeout(timers[path]); timers[path] = setTimeout(() => flush(path), 300); return; }
+    if (!dirty[path]) return;
+    const patch = pending[path] || {};
+    pending[path] = {}; dirty[path] = false; inflight[path] = true;
+    patch.updated_at = new Date().toISOString();
+    lastSent[path] = patch.updated_at;
+    const ref = db.doc(path);
+    try {
+      try { await ref.update(patch); }
+      catch (e) {
+        if (!e || e.code !== "invalid_argument") throw e;
+        const cur = await ref.get();
+        const full = mergeInto(cur.exists ? clone(cur.data()) : {}, clone(bodyFor(path)));
+        mergeInto(full, patch);
+        await ref.set(full);
+      }
+      inflight[path] = false; retries[path] = 0;
+      if (!Object.values(dirty).some(Boolean) && !Object.values(inflight).some(Boolean)) setSave("saved", "All answers saved");
+    } catch (e) {
+      inflight[path] = false;
+      const again = mergeInto(clone(patch), pending[path] || {});
+      delete again.updated_at; pending[path] = again; dirty[path] = true;
+      const code = e && e.code;
+      if (code === "invalid_argument") { readOnly = true; setSave("error", "Read-only: your access can't save answers"); render(); return; }
+      if (code === "revoked" || code === "not_granted" || code === "capability_disabled" || code === "capability_removed") {
+        setSave("error", "Not saved: this view can no longer save. Reload the page; edits are kept in this browser until then."); saveDraftForce(); return;
+      }
+      if (code === "quota_exceeded") { setSave("error", "Not saved: the form's storage is full (" + ((e && e.message) || code) + ")."); return; }
+      retries[path] = (retries[path] || 0) + 1;
+      const wait = Math.min(30000, 1500 * Math.pow(2, retries[path] - 1)) + Math.random() * 500;
+      setSave("error", "Not saved yet, retrying in " + Math.round(wait / 1000) + "s. Keep working.");
+      clearTimeout(timers[path]);
+      timers[path] = setTimeout(() => flush(path), wait);
+    }
+  }
+  document.addEventListener("visibilitychange", () => { if (document.hidden) flushAll(); });
+  window.addEventListener("pagehide", flushAll);
+  window.addEventListener("beforeunload", (e) => { flushAll(); if (Object.values(dirty).some(Boolean) || Object.values(inflight).some(Boolean)) { e.preventDefault(); e.returnValue = ""; } });
+  function saveDraftForce() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ responses: state.responses, scope: state.scope })); } catch (e) { /* storage unavailable */ } }
+  function saveDraft() { if (db) return; saveDraftForce(); }
+  function loadDraft() {
+    try { const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); if (d) { Object.entries(d.responses || {}).forEach(([k, v]) => { if (BY_ID[k]) state.responses[k] = merge(k, v); }); state.scope = mergeScope(d.scope); } } catch (e) { /* ignore */ }
+  }
+  function showBanner(t) { document.getElementById("banner-t").textContent = t; document.getElementById("banner").hidden = false; }
+
+  async function connect() {
+    let ns = null;
+    try { ns = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { ns = null; }
+    if (!ns) {
+      ready = true; loadDraft(); renderRail(); render(); updateStats();
+      setSave("error", "Saving to this browser only");
+      showBanner("Answers can't reach Claude from this view, so they're kept in this browser only. Open the page from your Claude account to save them where Claude can import them, or use \"Copy all answers as JSON\" at the bottom and paste the result into the chat.");
+      return;
+    }
+    db = ns;
+    let first = true, scopeLoaded = false;
+    const maybeReady = () => { if (!first && scopeLoaded && !ready) { ready = true; renderRail(); render(); updateStats(); setSave("saved", "Connected"); } };
+    setTimeout(() => { if (!ready) { setSave("error", "Still loading saved answers"); showBanner("Saved answers haven't loaded yet, so the form is locked to avoid overwriting them. Check your connection and reload the page."); } }, 15000);
+    db.collection("responses").onSnapshot(snap => {
+      const active = document.activeElement, changed = [];
+      snap.docChanges().forEach(ch => {
+        if (ch.type === "removed") return;
+        const rid = ch.doc.id;
+        if (!BY_ID[rid] || ch.doc.metadata.hasPendingWrites) return;
+        if (dirty["responses/" + rid] || inflight["responses/" + rid]) return;
+        if (isStale("responses/" + rid, ch.doc.data())) return;
+        const next = merge(rid, ch.doc.data());
+        if (state.responses[rid]) syncInPlace(state.responses[rid], next); else state.responses[rid] = next;
+        changed.push(rid);
+      });
+      if (first) { first = false; maybeReady(); }
+      else if (ready) changed.forEach(rid => { const card = document.querySelector('.req[data-rid="' + rid + '"]'); if (!card) return; if (active && card.contains(active)) stale.add(rid); else card.replaceWith(reqCard(rid)); });
+      if (ready) updateStats();
+    }, err => { setSave("error", "Live updates stopped (" + err.code + "). Reload the page to reconnect."); });
+    db.doc("scope/system").onSnapshot(s => {
+      if (!scopeLoaded) { scopeLoaded = true; if (s.exists) state.scope = mergeScope(s.data()); maybeReady(); return; }
+      if (!s.exists || s.metadata.hasPendingWrites || dirty["scope/system"] || inflight["scope/system"] || isStale("scope/system", s.data())) return;
+      syncInPlace(state.scope, mergeScope(s.data()));
+      updateStats();
+      if (document.activeElement && document.getElementById("view").contains(document.activeElement)) stale.add("VIEW"); else render();
+    }, () => { scopeLoaded = true; maybeReady(); });
+  }
+
+  // ---------- rendering helpers ----------
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v; else if (k === "text") el.textContent = v;
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v); else el.setAttribute(k, v === true ? "" : v);
+    }
+    kids.flat().forEach(k => { if (k != null && k !== false) el.append(k.nodeType ? k : document.createTextNode(String(k))); });
+    return el;
+  }
+  function slug(s) { return s.replace(/[^a-z0-9]+/gi, "-"); }
+  function textField(label, id, value, onInput, opts) {
+    opts = opts || {};
+    const input = opts.area ? h("textarea", { id, rows: opts.rows || 2, placeholder: opts.ph || "", disabled: locked() })
+      : h("input", { id, type: opts.type || "text", placeholder: opts.ph || "", disabled: locked() });
+    input.value = value || "";
+    input.addEventListener("input", () => onInput(input.value));
+    return h("label", { class: "field" + (opts.wide ? " wide" : ""), for: id }, h("span", { text: label }), input);
+  }
+  function fmtLv(v) { return v == null ? "—" : ABBR[v] + " " + v; }
+
+  // ---------- rail ----------
+  function sections() {
+    return [{ key: "SCOPE", code: "—", name: "Scope & tailoring" }, { key: "CAP", code: "!", name: "Weakest first" }, { key: "SEP" }]
+      .concat(TOPICS.map(t => ({ key: t.code, code: t.code, name: t.name })));
+  }
+  function renderRail() {
+    const rail = document.getElementById("rail"); rail.textContent = "";
+    const sel = document.getElementById("rail-select"); sel.textContent = "";
+    sections().forEach(s => {
+      if (s.key === "SEP") { rail.append(h("div", { class: "sep" })); return; }
+      rail.append(h("button", { type: "button", "data-key": s.key, "aria-current": String(current === s.key), onclick: () => go(s.key) },
+        h("span", { class: "code", text: s.code }), h("span", { text: s.name }), h("span", { class: "cnt", "data-cnt": s.key })));
+      const o = h("option", { value: s.key, text: (s.code.length === 2 ? s.code + " · " : "") + s.name }); if (current === s.key) o.selected = true; sel.append(o);
+    });
+    sel.onchange = () => go(sel.value);
+    renderRailCounts();
+  }
+  function renderRailCounts() {
+    TOPICS.forEach(t => { const el = document.querySelector('[data-cnt="' + t.code + '"]'); if (!el) return; const c = topicCounts(t.code); el.textContent = c.total ? c.done + "/" + c.total : "out"; el.classList.toggle("done", c.total > 0 && c.done === c.total); });
+  }
+  function go(key) {
+    current = key;
+    document.querySelectorAll(".rail button").forEach(b => b.setAttribute("aria-current", String(b.dataset.key === key)));
+    document.getElementById("rail-select").value = key;
+    try { localStorage.setItem(DRAFT_KEY + ":view", key); } catch (e) { /* ignore */ }
+    render(); window.scrollTo({ top: 0 });
+  }
+
+  // ---------- views ----------
+  function render() {
+    const view = document.getElementById("view"); view.textContent = "";
+    if (current === "SCOPE") { view.append(scopeView()); return; }
+    let list, title, sub;
+    if (current === "CAP") {
+      list = REQS.filter(r => { const e = evalReq(r.id); return e.in_scope && e.status !== "N/A"; })
+        .sort((a, b) => { const ea = evalReq(a.id), eb = evalReq(b.id); const sa = ea.score == null ? 999 : ea.score, sb = eb.score == null ? 999 : eb.score; return sa - sb; });
+      title = "Weakest first"; sub = "Rated requirements from lowest score up, then the ones still open. Anything under " + DATA.cap_line[LEVEL()] + " with Implemented below Fully compliant is a likely CAP.";
+    } else {
+      const t = TOPICS.find(x => x.code === current);
+      list = REQS.filter(r => r.topic_code === current);
+      title = t.code + " · " + t.name;
+      const ins = list.filter(r => evalReq(r.id).in_scope);
+      sub = ins.length + " of " + list.length + " requirements apply under the current tailoring. Rate each evaluative element, mark whether policy and procedure cover it, then confirm the maturity ratings.";
+    }
+    const filters = h("div", { class: "filters", role: "group", "aria-label": "Show" },
+      ...[["all", "All"], ["open", "Open"], ["cap", "CAP candidates"]].map(([k, l]) => h("button", { type: "button", "aria-pressed": String(filter === k), onclick: () => { filter = k; render(); } }, l)));
+    view.append(h("div", { class: "section-head" }, h("div", {}, h("h2", { text: title }), h("p", { text: sub })), filters));
+    const inList = list.filter(r => evalReq(r.id).in_scope), outList = list.filter(r => !evalReq(r.id).in_scope);
+    const shown = inList.filter(r => { const e = evalReq(r.id); return filter === "all" || (filter === "open" && e.status === "NOT ASSESSED") || (filter === "cap" && e.cap); });
+    if (!shown.length) view.append(h("div", { class: "empty", text: !inList.length ? "Nothing in this topic applies under the current tailoring." : filter === "open" ? "Every requirement here has been assessed." : "No CAP candidates here." }));
+    shown.forEach(r => view.append(reqCard(r.id)));
+    if (outList.length && current !== "CAP") {
+      view.append(h("details", { class: "outlist" }, h("summary", { text: outList.length + " out of scope under this tailoring" }),
+        h("ul", {}, ...outList.map(r => h("li", {}, h("span", { class: "mono", text: r.id + " " }), r.title + ": " + inScope(r.id)[1] + " ",
+          h("button", { class: "btn quiet", type: "button", disabled: locked(), onclick: () => { resp(r.id).scope_override = "in"; schedule("responses/" + r.id, "scope_override"); render(); updateStats(); } }, "Include anyway"))))));
+    }
+  }
+
+  function statusChip(rid) {
+    const e = evalReq(rid);
+    const cls = e.status === "FULLY MET" ? "MET" : e.status === "NOT MET" ? "NOTMET" : e.status === "N/A" ? "NA" : "OPEN";
+    return h("span", { class: "chip st-" + cls, "data-statuschip": rid, text: e.status === "NOT ASSESSED" ? "Open" : e.status });
+  }
+  function scoreChip(rid) {
+    const e = evalReq(rid);
+    return h("span", { class: "chip score", "data-scorechip": rid, text: e.score == null ? "score pending" : "score " + e.score });
+  }
+  function refreshCard(rid) {
+    const card = document.querySelector('.req[data-rid="' + rid + '"]'); if (!card) return;
+    const e = evalReq(rid);
+    card.dataset.status = e.status === "FULLY MET" ? "MET" : e.status;
+    card.querySelector("[data-statuschip]").replaceWith(statusChip(rid));
+    card.querySelector("[data-scorechip]").replaceWith(scoreChip(rid));
+    const capc = card.querySelector("[data-capchip]"); if (capc) capc.hidden = !e.cap;
+    const m = card.querySelector(".mat"); if (m) m.replaceWith(maturityBlock(rid));
+    updateStats();
+  }
+
+  function reqCard(rid) {
+    const c = BY_ID[rid], r = resp(rid), path = "responses/" + rid, ev = evalReq(rid);
+    const touch = (key, sub, field) => { schedule(path, key, sub, field); refreshCard(rid); };
+    const chips = h("div", { class: "chips" },
+      h("span", { class: "chip inh-" + c.inheritance, text: c.inheritance === "No" ? "Not inheritable" : c.inheritance + " inheritable" }),
+      h("span", { class: "chip cap", "data-capchip": rid, hidden: !ev.cap, text: "CAP candidate" }),
+      scoreChip(rid), statusChip(rid));
+    const top = h("div", { class: "req-top" },
+      h("div", { class: "req-title" }, h("span", { class: "id", text: c.id + " · " + c.hitrust_id }), h("h3", { text: c.title }),
+        h("div", { class: "req-meta", text: "Domain " + c.domain + " · Control " + c.control_ref + " · Applies: " + c.applies_text }),
+        h("blockquote", { text: c.statement }), h("p", { class: "req-note", text: c.note }),
+        ev.status === "N/A" ? h("p", { class: "req-note", text: "Treated as N/A: " + ev.na + ". Record a result on any element to assess it anyway." }) : null),
+      chips);
+
+    const objs = h("div", { class: "objs" });
+    c.elements.forEach(o => {
+      const ob = r.elements[o.id], name = "r-" + slug(o.id), tailNA = !elApplicable(o);
+      const seg = h("div", { class: "seg", role: "radiogroup", "aria-label": "Implemented result for " + o.id },
+        ...RESULTS.map(v => h("label", {},
+          h("input", { type: "radio", name, value: v, checked: ob.result === v, disabled: locked(), onchange: e => { ob.result = e.target.value; touch("elements", o.id, "result"); } }),
+          h("span", { text: v === "NOT ASSESSED" ? (tailNA ? "Auto N/A" : "Open") : v }))));
+      const box = (k, label) => h("label", {}, h("input", { type: "checkbox", checked: !!ob[k], disabled: locked() || LEVEL() === "ai1", onchange: e => { ob[k] = e.target.checked; touch("elements", o.id, k); } }), label);
+      const methods = METHODS.map(m => h("label", {}, h("input", { type: "checkbox", checked: (ob.methods || []).includes(m), disabled: locked(), onchange: e => {
+        ob.methods = METHODS.filter(x => x === m ? e.target.checked : (ob.methods || []).includes(x)); schedule(path, "elements", o.id, "methods");
+      } }), m));
+      objs.append(h("div", { class: "obj" + (tailNA ? " na-tail" : "") },
+        h("div", { class: "obj-q" }, h("span", { class: "oid", text: o.id }), o.text, o.cond ? h("span", { class: "kind", text: COND[o.cond] }) : null),
+        seg,
+        h("div", { class: "obj-fields" },
+          textField("Evidence", "ev-" + slug(o.id), ob.evidence, v => { ob.evidence = v; schedule(path, "elements", o.id, "evidence"); }, { ph: "Artifact, section, date" }),
+          textField(ob.result === "N/A" ? "N/A justification" : "Notes / gap", "nt-" + slug(o.id), ob.notes, v => { ob.notes = v; schedule(path, "elements", o.id, "notes"); }, { ph: ob.result === "NOT MET" ? "What is missing" : "Who said what, what you saw" }),
+          h("div", { class: "cov", role: "group", "aria-label": "Coverage and methods" },
+            LEVEL() === "ai2" ? [box("policy", "In policy"), box("procedure", "In procedure"), h("span", { class: "divider" })] : null, ...methods))));
+    });
+
+    const provMatch = /^(Shared|Inherited)\s*\((.*)\)\s*$/.exec(r.provider || "");
+    let provKind = provMatch ? provMatch[1] : (r.provider || "Customer").startsWith("Shared") ? "Shared" : (r.provider || "").startsWith("Inherited") ? "Inherited" : "Customer";
+    let provName = provMatch ? provMatch[2] : "";
+    const setProv = () => { r.provider = provKind === "Customer" ? "Customer" : provKind + " (" + provName + ")"; schedule(path, "provider"); };
+    const provSel = h("select", { id: "pk-" + slug(rid), disabled: locked() }, ...["Customer", "Shared", "Inherited"].map(k => h("option", { value: k, selected: provKind === k, disabled: k === "Inherited" && c.inheritance === "No", text: k === "Inherited" && c.inheritance === "No" ? "Inherited (not allowed)" : k })));
+    const provIn = h("input", { type: "text", id: "pn-" + slug(rid), placeholder: "Provider, e.g. Azure OpenAI, AWS Bedrock", disabled: locked() || provKind === "Customer" });
+    provIn.value = provName;
+    provSel.addEventListener("change", () => { provKind = provSel.value; provIn.disabled = locked() || provKind === "Customer"; setProv(); });
+    provIn.addEventListener("input", () => { provName = provIn.value; setProv(); });
+    const scopeSel = h("select", { id: "so-" + slug(rid), disabled: locked() },
+      ...[["", "Follow tailoring"], ["in", "Include (MyCSF has it)"], ["out", "Exclude (MyCSF does not)"]].map(([v, l]) => h("option", { value: v, selected: (r.scope_override || "") === v, text: l })));
+    scopeSel.addEventListener("change", () => { r.scope_override = scopeSel.value || null; schedule(path, "scope_override"); render(); updateStats(); });
+
+    const grid = h("div", { class: "ssp-grid" },
+      textField("Interviewed (role)", "iv-" + slug(rid), r.interviewees, v => { r.interviewees = v; schedule(path, "interviewees"); }, { ph: "ML engineering lead; SecOps" }),
+      textField("Responsible role", "rr-" + slug(rid), r.responsible, v => { r.responsible = v; schedule(path, "responsible"); }, { ph: "AI governance lead" }),
+      h("div", { class: "field wide" }, h("span", { text: "Responsibility (HITRUST inheritance)" }), h("div", { class: "prov" }, provSel, provIn)),
+      textField("Implementation statement", "im-" + slug(rid), r.implementation, v => { r.implementation = v; schedule(path, "implementation"); }, { area: true, rows: 3, wide: true, ph: "How the organization meets this requirement, in its terms" }),
+      textField("Requirement-level evidence", "re-" + slug(rid), r.evidence, v => { r.evidence = v; schedule(path, "evidence"); }, { wide: true, ph: "Separate artifacts with ;" }),
+      MM() ? textField("Measured: metric and how often it is reviewed", "me-" + slug(rid), r.measured, v => { r.measured = v; schedule(path, "measured"); }, { area: true, wide: true }) : null,
+      MM() ? textField("Managed: how failures against the metric are corrected", "mg-" + slug(rid), r.managed, v => { r.managed = v; schedule(path, "managed"); }, { area: true, wide: true }) : null,
+      textField("Planned fix (CAP / gap)", "pl-" + slug(rid), r.planned_implementation, v => { r.planned_implementation = v; schedule(path, "planned_implementation"); }, { area: true, wide: true, ph: "What will be done, by whom, by when" }),
+      textField("N/A justification", "na-" + slug(rid), r.na_justification, v => { r.na_justification = v; schedule(path, "na_justification"); }, { wide: true }),
+      h("label", { class: "field", for: scopeSel.id }, h("span", { text: "Scope" }), scopeSel));
+    const filled = [r.implementation, r.responsible, r.planned_implementation, r.interviewees].filter(Boolean).length;
+    const det = h("details", { class: "ssp" }, h("summary", {}, "Narrative, responsibility and CAP", h("span", { class: "hint", text: filled ? filled + " of 4 filled" : "interviewee, responsible role, implementation, planned fix" })), grid);
+    const card = h("section", { class: "req", "data-rid": rid, "data-status": ev.status === "FULLY MET" ? "MET" : ev.status, id: "req-" + slug(rid) }, top, objs);
+    if (ev.status !== "N/A") card.append(maturityBlock(rid));
+    card.append(det);
+    return card;
+  }
+
+  function maturityBlock(rid) {
+    const r = resp(rid), e = evalReq(rid), path = "responses/" + rid;
+    const wrap = h("div", { class: "mat" }, h("div", { class: "mat-head" }, h("h4", { text: "Maturity (" + LEVEL() + ")" }),
+      h("span", { text: LEVEL() === "ai1" ? "ai1 scores Implemented only." : "Auto uses the element coverage: under 11% NC, 11–32 SC, 33–65 PC, 66–89 MC, 90+ FC. Override after judging strength." })));
+    usedLevels().forEach(k => {
+      const sug = e.sug ? e.sug[k] : null;
+      const covTxt = e.cov && e.cov[k] != null ? e.cov[k] + "% of elements" : k === "implemented" ? "finish the elements" : "rate it yourself";
+      const sel = h("select", { id: "mt-" + k + "-" + slug(rid), disabled: locked() },
+        h("option", { value: "", text: "Auto" + (sug != null ? " (" + fmtLv(sug) + ")" : "") }),
+        ...RATE.map(([v, a]) => h("option", { value: String(v), selected: r.maturity[k] === v, text: a + " " + v })));
+      sel.addEventListener("change", () => { r.maturity[k] = sel.value === "" ? null : +sel.value; schedule(path, "maturity", k); refreshCard(rid); });
+      wrap.append(h("label", { class: "field", for: sel.id }, h("span", { text: LNAME[k] + " · " + W[k] + "%" }), sel, h("small", { text: covTxt })));
+    });
+    const max = LEVEL() === "ai1" || MM() ? 100 : 75;
+    wrap.append(h("div", { class: "field" }, h("span", { text: "Requirement score" }), h("div", { class: "total" }, e.score == null ? "—" : String(e.score), h("small", { text: " / " + max }))));
+    if (MM() && e.final && e.final.managed != null && e.final.measured != null && e.final.managed > e.final.measured)
+      wrap.append(h("div", { class: "field wide", style: "color:var(--notmet);font-size:12.5px" }, "Managed is rated above Measured; HITRUST does not allow that."));
+    return wrap;
+  }
+
+  function scopeView() {
+    const s = state.scope, path = "scope/system", t = s.tailoring;
+    const set = k => v => { s[k] = v; schedule(path, k); };
+    const setIn = (o, k) => v => { s[o] = Object.assign({}, s[o] || {}); s[o][k] = v; schedule(path, o, k); };
+    const setT = (k, v) => { t[k] = v; schedule(path, "tailoring", k); updateStats(); renderSum(); };
+    const wrap = h("div", { style: "display:flex;flex-direction:column;gap:16px" });
+    wrap.append(h("div", { class: "section-head" }, h("div", {}, h("h2", { text: "Scope & tailoring" }),
+      h("p", { text: "Answer the MyCSF \"Security for AI Systems\" questions first. They decide which of the 44 AI requirements apply; the system characteristics below decide which evaluative elements are N/A." }))));
+
+    const yn = (k, label, hint) => {
+      const nm = "t-" + k;
+      return h("div", { class: "tail-q" }, h("span", { text: label }), hint ? h("small", { text: hint }) : null,
+        h("div", { class: "yn", role: "radiogroup", "aria-label": label }, ...[[true, "Yes"], [false, "No"], [null, "Not sure"]].map(([v, l]) =>
+          h("label", {}, h("input", { type: "radio", name: nm, checked: t[k] === v, disabled: locked(), onchange: () => setT(k, v) }), h("span", { text: l })))));
+    };
+    const sum = h("div", { class: "scope-sum" });
+    function renderSum() {
+      const ins = REQS.filter(r => inScope(r.id)[0]).length;
+      const na = REQS.filter(r => { const e = evalReq(r.id); return e.in_scope && e.status === "N/A"; }).length;
+      sum.textContent = !(t.model_types || []).length ? "Pick at least one AI model type." :
+        ins + " of 44 AI requirements apply" + (na ? " (" + na + " of them N/A for this system)" : "") + ". Check this against the requirement count in the client's MyCSF object; use a requirement's Scope setting where they differ.";
+    }
+    const levelSel = h("div", { class: "yn", role: "radiogroup", "aria-label": "Certification" }, ...[["ai2", "ai2 (with r2)"], ["ai1", "ai1 (with e1/i1)"]].map(([v, l]) =>
+      h("label", {}, h("input", { type: "radio", name: "lvl", checked: s.level === v, disabled: locked(), onchange: () => { s.level = v; if (v === "ai1") s.measured_managed = false; schedule(path, "level"); schedule(path, "measured_managed"); updateStats(); render(); } }), h("span", { text: l }))));
+    const mm = h("label", {}, h("input", { type: "checkbox", checked: !!s.measured_managed, disabled: locked() || s.level === "ai1", onchange: e => { s.measured_managed = e.target.checked; schedule(path, "measured_managed"); updateStats(); } }), "Score Measured and Managed (optional for r2; without them a requirement tops out at 75)");
+
+    wrap.append(h("div", { class: "panel" }, h("h3", { text: "Certification and tailoring" }),
+      h("div", { class: "tail-q" }, h("span", { text: "Target certification" }), levelSel, h("div", { class: "checks" }, mm)),
+      h("div", { class: "tail-q" }, h("span", { text: "Q1. What types of AI models does the in-scope system use?" }), h("small", { text: "Select every type in use across all in-scope models." }),
+        h("div", { class: "checks" }, ...MODEL_TYPES.map(([v, l]) => h("label", {}, h("input", { type: "checkbox", checked: (t.model_types || []).includes(v), disabled: locked(), onchange: e => {
+          const cur = new Set(t.model_types || []); e.target.checked ? cur.add(v) : cur.delete(v); setT("model_types", ["rule", "predictive", "generative"].filter(x => cur.has(x)));
+        } }), l)))),
+      yn("q2", "Q2. Was confidential or covered data used to train or tune a model, or to enhance prompts through RAG?", "High-water mark: yes if any in-scope model qualifies."),
+      yn("q3", "Q3. Are any models' architecture and parameters confidential to the organization?", "High-water mark across models."),
+      h("h3", { text: "System characteristics" }),
+      h("div", { class: "grid2" }, yn("rag", "Uses retrieval-augmented generation (RAG) or embeddings"), yn("finetune", "Fine-tunes models"),
+        yn("tools", "Uses agents, plugins or other language model tools"), yn("external_models", "Uses externally sourced models (third-party / open-weight)"),
+        yn("model_builder", "Builds and trains its own models")),
+      sum));
+    renderSum();
+
+    wrap.append(h("div", { class: "panel" }, h("h3", { text: "AI system" }), h("div", { class: "grid2" },
+      textField("System description", "sc-desc", s.description, set("description"), { area: true, rows: 3, wide: true, ph: "What the AI system does, for whom, and the decisions or actions it supports" }),
+      textField("Deployment and architecture", "sc-dep", s.deployment, set("deployment"), { area: true, rows: 3, wide: true, ph: "Hosting, AI platform, application layer, where prompts and outputs flow" }),
+      textField("Boundary", "sc-bound", s.boundary, set("boundary"), { area: true, rows: 3, wide: true, ph: "In-scope platforms marked as featuring AI in MyCSF; what is out and how it is separated" }),
+      textField("AI platforms", "sc-plat", s.ai_platforms, set("ai_platforms"), { wide: true, ph: "e.g. Azure AI Foundry, AWS Bedrock, Databricks, self-hosted GPU cluster" }),
+      textField("Data sources (training, tuning, RAG)", "sc-data", s.data_sources, set("data_sources"), { area: true, wide: true, ph: "Sources, sensitivity (PHI, PII, confidential), how data reaches the model" }),
+      textField("End users", "sc-eu", s.end_users, set("end_users"), { type: "number" }),
+      textField("Privileged users", "sc-pu", s.privileged_users, set("privileged_users"), { type: "number" }),
+      textField("Architecture diagram reference", "sc-diag", s.diagram_reference, set("diagram_reference"), { ph: "File and date" }),
+      textField("AI inventory reference", "sc-inv", s.inventory_reference, set("inventory_reference"), { ph: "Where the AI system inventory lives" }))));
+
+    const people = h("div", { class: "panel" }, h("h3", { text: "Points of contact" }));
+    [["system_owner", "System owner"], ["ai_governance_lead", "AI governance lead"], ["security_officer", "Security officer"]].forEach(([k, l]) => {
+      const p = s[k] || {};
+      people.append(h("div", { class: "grid3" }, textField(l + " name", "sc-" + k + "-n", p.name, setIn(k, "name")),
+        textField("Title", "sc-" + k + "-t", p.title, setIn(k, "title")), textField("Email", "sc-" + k + "-e", p.email, setIn(k, "email"), { type: "email" })));
+    });
+    wrap.append(people);
+    wrap.append(tablePanel("Models in scope", "models", [["name", "Model"], ["version", "Version"], ["type", "Type"], ["source", "Internal / external"], ["provider", "Provider"], ["owner", "Owner"]], "Add model"));
+    wrap.append(tablePanel("AI service providers", "providers", [["name", "Provider"], ["service", "Service"], ["role", "Role (platform, model creator, app)"], ["hitrust", "HITRUST cert / inheritance"], ["srm", "Shared responsibility matrix"]], "Add provider"));
+    return wrap;
+  }
+  function tablePanel(title, key, cols, addLabel) {
+    const s = state.scope, path = "scope/system";
+    const panel = h("div", { class: "panel" }, h("h3", { text: title }));
+    const rows = h("tbody");
+    const redraw = () => {
+      rows.textContent = "";
+      (s[key] || []).forEach((p, i) => {
+        rows.append(h("tr", {}, ...cols.map(([k]) => { const inp = h("input", { type: "text", id: key + "-" + i + "-" + k, disabled: locked(), "aria-label": k }); inp.value = p[k] || ""; inp.addEventListener("input", () => { p[k] = inp.value; schedule(path, key); }); return h("td", {}, inp); }),
+          h("td", {}, h("button", { class: "btn quiet", type: "button", disabled: locked(), onclick: () => { s[key].splice(i, 1); schedule(path, key); redraw(); } }, "Remove"))));
+      });
+    };
+    redraw();
+    panel.append(h("div", { class: "esp-wrap" }, h("table", { class: "esp-table" }, h("thead", {}, h("tr", {}, ...cols.map(([, l]) => h("th", { text: l })), h("th"))), rows)),
+      h("div", {}, h("button", { class: "btn", type: "button", disabled: locked(), onclick: () => { s[key] = (s[key] || []).concat([Object.fromEntries(cols.map(([k]) => [k, ""]))]); schedule(path, key); redraw(); } }, addLabel)));
+    return panel;
+  }
+
+  const stale = new Set();
+  document.addEventListener("focusout", () => setTimeout(() => {
+    flushAll();
+    const active = document.activeElement;
+    stale.forEach(key => {
+      if (key === "VIEW") { if (!(active && document.getElementById("view").contains(active))) { stale.delete(key); render(); } return; }
+      const card = document.querySelector('.req[data-rid="' + key + '"]');
+      if (!card) { stale.delete(key); return; }
+      if (!(active && card.contains(active)) && !dirty["responses/" + key]) { stale.delete(key); card.replaceWith(reqCard(key)); }
+    });
+  }, 0));
+
+  document.getElementById("export-btn").addEventListener("click", async () => {
+    const box = document.getElementById("export-box");
+    const text = JSON.stringify({ format: "hitrust-ai-questionnaire/1", engagement_id: DATA.meta.engagement_id, responses: state.responses, scope: state.scope }, null, 1);
+    box.value = text;
+    try { await navigator.clipboard.writeText(text); document.getElementById("export-msg").textContent = "Copied. Paste it into the chat to import."; box.hidden = true; }
+    catch (e) { box.hidden = false; box.focus(); box.select(); document.getElementById("export-msg").textContent = "Copy the selected text and paste it into the chat."; }
+  });
+
+  document.getElementById("h-client").textContent = DATA.meta.client + " · " + DATA.meta.system;
+  document.getElementById("h-sub").textContent = [DATA.meta.assessment_type, "Assessor: " + DATA.meta.assessor, "HITRUST AI Security Assessment"].filter(Boolean).join(" · ");
+  try { const v = localStorage.getItem(DRAFT_KEY + ":view"); if (v && (v === "SCOPE" || v === "CAP" || TOPICS.find(t => t.code === v))) current = v; } catch (e) { /* ignore */ }
+  renderRail();
+  render();
+  updateStats();
+  connect();
+})();
+</script>

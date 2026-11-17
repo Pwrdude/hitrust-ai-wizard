@@ -1,0 +1,2050 @@
+{
+ "topics": [
+  {
+   "code": "TM",
+   "name": "AI security threat management"
+  },
+  {
+   "code": "GV",
+   "name": "AI security governance and oversight"
+  },
+  {
+   "code": "DV",
+   "name": "Development of AI software"
+  },
+  {
+   "code": "LC",
+   "name": "AI legal and compliance"
+  },
+  {
+   "code": "SC",
+   "name": "AI supply chain"
+  },
+  {
+   "code": "MR",
+   "name": "Model robustness"
+  },
+  {
+   "code": "AX",
+   "name": "Access to the AI system"
+  },
+  {
+   "code": "EN",
+   "name": "Encryption of AI assets"
+  },
+  {
+   "code": "LM",
+   "name": "AI system logging and monitoring"
+  },
+  {
+   "code": "IN",
+   "name": "Documenting and inventorying AI systems"
+  },
+  {
+   "code": "FS",
+   "name": "Filtering and sanitizing AI data, inputs, and outputs"
+  },
+  {
+   "code": "RS",
+   "name": "Resilience of the AI system"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "TM-01",
+   "hitrust_id": "17.03bAISecOrganizational.4",
+   "topic_code": "TM",
+   "topic": "AI security threat management",
+   "title": "Identifying security threats to the AI system",
+   "domain": "17 Risk Management",
+   "control_ref": "03.b Performing Risk Assessments",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "AI-specific security threats to the deployed AI system are identified before new models are deployed, at least semiannually, and after AI-related security incidents, and are recorded in a threat register that describes each threat and the system components it affects.",
+   "note": "Dual responsibility: the AI application provider and each AI service provider perform this independently.",
+   "elements": [
+    {
+     "id": "TM-01[1]",
+     "text": "Threats identified before new models are deployed",
+     "cond": null
+    },
+    {
+     "id": "TM-01[2]",
+     "text": "Threats identified at least semiannually",
+     "cond": null
+    },
+    {
+     "id": "TM-01[3]",
+     "text": "Threats identified after AI-related security incidents",
+     "cond": null
+    },
+    {
+     "id": "TM-01[4]",
+     "text": "Threat register describes each threat",
+     "cond": null
+    },
+    {
+     "id": "TM-01[5]",
+     "text": "Threat register names the affected components (training data, models, APIs, etc.)",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "TM-02",
+   "hitrust_id": "17.03bAISecOrganizational.5",
+   "topic_code": "TM",
+   "topic": "AI security threat management",
+   "title": "Threat modeling for the AI system",
+   "domain": "17 Risk Management",
+   "control_ref": "03.b Performing Risk Assessments",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Threat modeling evaluates the AI system's exposure to the identified threats, the countermeasures already in place, and the additional countermeasures needed given risk tolerance and the system's risk category; it is repeated when new threats are identified, before new models are deployed, at least semiannually, and after AI-related security incidents.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "TM-02[1]",
+     "text": "Threat modeling evaluates exposure to the identified threats",
+     "cond": null
+    },
+    {
+     "id": "TM-02[2]",
+     "text": "Threat modeling identifies countermeasures currently in place",
+     "cond": null
+    },
+    {
+     "id": "TM-02[3]",
+     "text": "Threat modeling identifies additional countermeasures needed, given risk tolerance and risk category",
+     "cond": null
+    },
+    {
+     "id": "TM-02[4]",
+     "text": "Performed when new threats are identified",
+     "cond": null
+    },
+    {
+     "id": "TM-02[5]",
+     "text": "Performed before new models are deployed",
+     "cond": null
+    },
+    {
+     "id": "TM-02[6]",
+     "text": "Performed at least semiannually",
+     "cond": null
+    },
+    {
+     "id": "TM-02[7]",
+     "text": "Performed after AI-related security incidents",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "TM-03",
+   "hitrust_id": "07.06hAISecOrganizational.1",
+   "topic_code": "TM",
+   "topic": "AI security threat management",
+   "title": "Security evaluations such as AI red teaming",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "06.h Technical Compliance Checking",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "The AI system is security-assessed (e.g., AI red teaming, penetration testing) for AI-specific threats such as poisoning and model inversion before new models are deployed, before new or significantly changed supporting infrastructure is deployed, and at least annually, and risk treatment follows from the results.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "TM-03[1]",
+     "text": "Assessed before new models are deployed",
+     "cond": null
+    },
+    {
+     "id": "TM-03[2]",
+     "text": "Assessed before new or significantly modified supporting infrastructure is deployed",
+     "cond": null
+    },
+    {
+     "id": "TM-03[3]",
+     "text": "Assessed at least annually",
+     "cond": null
+    },
+    {
+     "id": "TM-03[4]",
+     "text": "Risk treatment, including added countermeasures, taken based on results",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "GV-01",
+   "hitrust_id": "01.02aAISecOrganizational.1",
+   "topic_code": "GV",
+   "topic": "AI security governance and oversight",
+   "title": "Assign roles and responsibilities for AI",
+   "domain": "01 Information Protection Program",
+   "control_ref": "02.a Roles and Responsibilities",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Roles and responsibilities for governance, security, and risk management of the deployed AI system are formally defined (by extending an existing RACI or creating an AI-specific one), and human accountability for the system's actions, outputs, and decisions is formally assigned.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "GV-01[1]",
+     "text": "Roles defined for AI governance",
+     "cond": null
+    },
+    {
+     "id": "GV-01[2]",
+     "text": "Roles defined for AI security",
+     "cond": null
+    },
+    {
+     "id": "GV-01[3]",
+     "text": "Roles defined for AI risk management",
+     "cond": null
+    },
+    {
+     "id": "GV-01[4]",
+     "text": "Human accountability formally assigned for AI actions, outputs, and decisions",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "GV-02",
+   "hitrust_id": "01.00aAISecOrganizational.1",
+   "topic_code": "GV",
+   "topic": "AI security governance and oversight",
+   "title": "Augment written policies to address AI specificities",
+   "domain": "01 Information Protection Program",
+   "control_ref": "00.a Information Security Management Program",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Where appropriate to the deployment context, written policies explicitly cover the organization's AI systems and their AI-specific characteristics across security administration, data governance, software development, risk management, incident management, business continuity, and disaster recovery.",
+   "note": "Dual responsibility: the AI application provider and its AI service providers each perform this.",
+   "elements": [
+    {
+     "id": "GV-02[1]",
+     "text": "Security administration policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[2]",
+     "text": "Data governance policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[3]",
+     "text": "Software development policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[4]",
+     "text": "Risk management policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[5]",
+     "text": "Incident management policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[6]",
+     "text": "Business continuity policy covers AI systems",
+     "cond": null
+    },
+    {
+     "id": "GV-02[7]",
+     "text": "Disaster recovery policy covers AI systems",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "GV-03",
+   "hitrust_id": "12.09abAISecSystem.3",
+   "topic_code": "GV",
+   "topic": "AI security governance and oversight",
+   "title": "Humans can intervene if needed",
+   "domain": "12 Audit Logging & Monitoring",
+   "control_ref": "09.ab Monitoring System Use",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "The AI application lets human operators evaluate model outputs before relying on them and intervene in model-initiated actions (e.g., sending email, modifying records) when needed.",
+   "note": "AI application provider's sole responsibility. Addresses confabulation and excessive agency.",
+   "elements": [
+    {
+     "id": "GV-03[1]",
+     "text": "Operators can evaluate model outputs before relying on them",
+     "cond": null
+    },
+    {
+     "id": "GV-03[2]",
+     "text": "Operators can intervene in model-initiated actions when needed",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-01",
+   "hitrust_id": "13.02eAISecOrganizational.1",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Provide AI security training to AI builders and deployers",
+   "domain": "13 Education, Training and Awareness",
+   "control_ref": "02.e Information Security Awareness, Education, and Training",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "At least annually, AI security training (vulnerabilities, threats, policy requirements and similar topics) is provided to all teams that build and deploy AI software and models, including development, data science, and cybersecurity personnel.",
+   "note": "Inheritance not confirmed from the public spec; treat as the organization's own responsibility unless MyCSF says otherwise.",
+   "elements": [
+    {
+     "id": "DV-01[1]",
+     "text": "Annual AI security training for development personnel",
+     "cond": null
+    },
+    {
+     "id": "DV-01[2]",
+     "text": "Annual AI security training for data science personnel",
+     "cond": null
+    },
+    {
+     "id": "DV-01[3]",
+     "text": "Annual AI security training for cybersecurity personnel",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-02",
+   "hitrust_id": "06.10jAISecSystem.1",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Version control of AI assets",
+   "domain": "06 Configuration Management",
+   "control_ref": "10.j Access Control to Program Source Code",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "AI assets are versioned and tracked: model-creation code, training and fine-tuning datasets, RAG datasets, pipeline configurations, language model tool code, and models.",
+   "note": "Fully inheritable; may be the AI platform provider's and/or model creator's sole responsibility.",
+   "elements": [
+    {
+     "id": "DV-02[1]",
+     "text": "Code used to create, train, and/or deploy models",
+     "cond": null
+    },
+    {
+     "id": "DV-02[2]",
+     "text": "Training datasets",
+     "cond": null
+    },
+    {
+     "id": "DV-02[3]",
+     "text": "Fine-tuning datasets",
+     "cond": "finetune"
+    },
+    {
+     "id": "DV-02[4]",
+     "text": "RAG datasets",
+     "cond": "rag"
+    },
+    {
+     "id": "DV-02[5]",
+     "text": "Pipeline configurations",
+     "cond": null
+    },
+    {
+     "id": "DV-02[6]",
+     "text": "Language model tool code (agents, plugins)",
+     "cond": "tools"
+    },
+    {
+     "id": "DV-02[7]",
+     "text": "Models",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-03",
+   "hitrust_id": "07.10mAISecOrganizational.6",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Inspection of AI software assets",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.m Control of Technical Vulnerabilities",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Downloaded models, software packages, and language model tools are inspected for exploitable vulnerabilities before use, and the organization acts on the results.",
+   "note": "Fully inheritable.",
+   "elements": [
+    {
+     "id": "DV-03[1]",
+     "text": "Downloaded models inspected before use",
+     "cond": null
+    },
+    {
+     "id": "DV-03[2]",
+     "text": "Downloaded software packages inspected before use",
+     "cond": null
+    },
+    {
+     "id": "DV-03[3]",
+     "text": "Language model tools inspected before use",
+     "cond": "tools"
+    },
+    {
+     "id": "DV-03[4]",
+     "text": "Results acted on",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-04",
+   "hitrust_id": "06.09bAISecSystem.1",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Change control over AI models",
+   "domain": "06 Configuration Management",
+   "control_ref": "09.b Change Management",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Model changes, including version upgrades and model replacements, are documented, tested, and approved under the software change control policy before deployment, and release notes are obtained and reviewed for upgrades to externally developed models.",
+   "note": "Partially inheritable (AI application provider and AI platform provider). Can be N/A if no new models or versions were deployed in the past 12 months.",
+   "elements": [
+    {
+     "id": "DV-04[1]",
+     "text": "Model changes documented",
+     "cond": null
+    },
+    {
+     "id": "DV-04[2]",
+     "text": "Model changes tested",
+     "cond": null
+    },
+    {
+     "id": "DV-04[3]",
+     "text": "Model changes approved before deployment",
+     "cond": null
+    },
+    {
+     "id": "DV-04[4]",
+     "text": "Release notes obtained and reviewed for upgrades to externally developed models",
+     "cond": "external_models"
+    }
+   ]
+  },
+  {
+   "id": "DV-05",
+   "hitrust_id": "06.10hAISecSystem.5",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Change control over language model tools",
+   "domain": "06 Configuration Management",
+   "control_ref": "10.h Control of Operational Software",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "generative"
+    ],
+    "trigger": null,
+    "requires": "tools"
+   },
+   "applies_text": "generative only, only when agents/plugins/language model tools used",
+   "statement": "Changes to agents and plugins are documented, tested, and approved under the software change control policy before deployment.",
+   "note": "Generative AI only; applies only when agents or plugins are used. AI application provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "DV-05[1]",
+     "text": "Changes to agents/plugins documented",
+     "cond": null
+    },
+    {
+     "id": "DV-05[2]",
+     "text": "Changes to agents/plugins tested",
+     "cond": null
+    },
+    {
+     "id": "DV-05[3]",
+     "text": "Changes to agents/plugins approved before deployment",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-06",
+   "hitrust_id": "06.10hAISecSystem.6",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Documentation of AI specifics during system design and development",
+   "domain": "06 Configuration Management",
+   "control_ref": "10.h Control of Operational Software",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "System documentation covers the creation, operation, and lifecycle management of models, datasets, configurations, and language model tools, and the tooling, computing, and human resources the system needs.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "DV-06[1]",
+     "text": "Documentation covers models",
+     "cond": null
+    },
+    {
+     "id": "DV-06[2]",
+     "text": "Documentation covers datasets",
+     "cond": null
+    },
+    {
+     "id": "DV-06[3]",
+     "text": "Documentation covers configurations",
+     "cond": null
+    },
+    {
+     "id": "DV-06[4]",
+     "text": "Documentation covers language model tools",
+     "cond": "tools"
+    },
+    {
+     "id": "DV-06[5]",
+     "text": "Documentation covers tooling resources",
+     "cond": null
+    },
+    {
+     "id": "DV-06[6]",
+     "text": "Documentation covers system and computing resources",
+     "cond": null
+    },
+    {
+     "id": "DV-06[7]",
+     "text": "Documentation covers human resources",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-07",
+   "hitrust_id": "06.10hAISecSystem.7",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Linkage between dataset, model, and pipeline configuration",
+   "domain": "06 Configuration Management",
+   "control_ref": "10.h Control of Operational Software",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "When creating machine learning models, the link between training dataset versions, pipeline configuration, and the resulting model is explicitly documented.",
+   "note": "ML models only. Fully inheritable; may be the AI model creator's sole responsibility (inherit when the client only consumes third-party models).",
+   "elements": [
+    {
+     "id": "DV-07[1]",
+     "text": "Dataset version, pipeline configuration, and resulting model linkage documented",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "DV-08",
+   "hitrust_id": "07.10mAISecOrganizational.2",
+   "topic_code": "DV",
+   "topic": "Development of AI software",
+   "title": "Verification of origin and integrity of AI assets",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.m Control of Technical Vulnerabilities",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Before use, cryptographic hashes and/or digital signatures are verified on downloaded models, software packages, datasets, and language model tools.",
+   "note": "Fully inheritable (AI platform provider and/or model creator).",
+   "elements": [
+    {
+     "id": "DV-08[1]",
+     "text": "Hash/signature verified on downloaded models",
+     "cond": null
+    },
+    {
+     "id": "DV-08[2]",
+     "text": "Hash/signature verified on downloaded software packages",
+     "cond": null
+    },
+    {
+     "id": "DV-08[3]",
+     "text": "Hash/signature verified on downloaded datasets",
+     "cond": null
+    },
+    {
+     "id": "DV-08[4]",
+     "text": "Hash/signature verified on language model tools",
+     "cond": "tools"
+    }
+   ]
+  },
+  {
+   "id": "LC-01",
+   "hitrust_id": "19.06aAISecOrganizational.1",
+   "topic_code": "LC",
+   "topic": "AI legal and compliance",
+   "title": "Identify and evaluate compliance and legal obligations for AI development and deployment",
+   "domain": "19 Data Protection & Privacy",
+   "control_ref": "06.a Identification of Applicable Legislation",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Before deployment and at least annually, the organization assesses its compliance with legal and regulatory requirements for AI development and deployment, including liability for harmful outputs.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "LC-01[1]",
+     "text": "Compliance with applicable AI laws and regulations (including liability for outputs) assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-01[2]",
+     "text": "Assessed before deployment",
+     "cond": null
+    },
+    {
+     "id": "LC-01[3]",
+     "text": "Assessed at least annually",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "LC-02",
+   "hitrust_id": "19.06cAISecOrganizational.1",
+   "topic_code": "LC",
+   "topic": "AI legal and compliance",
+   "title": "Identify and evaluate constraints on data used for AI",
+   "domain": "19 Data Protection & Privacy",
+   "control_ref": "06.c Protection of Organizational Records",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "The organization assesses compliance with constraints on data used for training, validation, tuning, and RAG (laws, regulations, contracts, internal data governance, copyright and commercial interests), acts on the results, and does so before the data is used and at least annually.",
+   "note": "ML models only. Dual responsibility.",
+   "elements": [
+    {
+     "id": "LC-02[1]",
+     "text": "Constraints from laws assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-02[2]",
+     "text": "Constraints from regulations assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-02[3]",
+     "text": "Contractual obligations assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-02[4]",
+     "text": "Internal data governance requirements assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-02[5]",
+     "text": "Copyright and commercial constraints assessed",
+     "cond": null
+    },
+    {
+     "id": "LC-02[6]",
+     "text": "Results acted on",
+     "cond": null
+    },
+    {
+     "id": "LC-02[7]",
+     "text": "Assessed before the data is used for AI",
+     "cond": null
+    },
+    {
+     "id": "LC-02[8]",
+     "text": "Reassessed at least annually",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "SC-01",
+   "hitrust_id": "14.09fAISecSystem.1",
+   "topic_code": "SC",
+   "topic": "AI supply chain",
+   "title": "Due diligence review of AI providers",
+   "domain": "14 Third Party Assurance",
+   "control_ref": "09.f Monitoring and Review of Third Party Services",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "The security posture of external commercial providers of AI models, datasets, software packages, platforms and infrastructure, and language model tools is evaluated at onboarding and routinely afterward.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "SC-01[1]",
+     "text": "Model providers evaluated",
+     "cond": null
+    },
+    {
+     "id": "SC-01[2]",
+     "text": "Dataset providers evaluated",
+     "cond": null
+    },
+    {
+     "id": "SC-01[3]",
+     "text": "Software package providers evaluated",
+     "cond": null
+    },
+    {
+     "id": "SC-01[4]",
+     "text": "Platform and infrastructure providers evaluated",
+     "cond": null
+    },
+    {
+     "id": "SC-01[5]",
+     "text": "Language model tool providers evaluated",
+     "cond": "tools"
+    },
+    {
+     "id": "SC-01[6]",
+     "text": "Evaluated at onboarding",
+     "cond": null
+    },
+    {
+     "id": "SC-01[7]",
+     "text": "Evaluated routinely under supplier oversight",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "SC-02",
+   "hitrust_id": "14.05iAISecOrganizational.1",
+   "topic_code": "SC",
+   "topic": "AI supply chain",
+   "title": "Review the model card of models used by the AI system",
+   "domain": "14 Third Party Assurance",
+   "control_ref": "05.i Identification of Risks Related to External Parties",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": "external_models"
+   },
+   "applies_text": "all model types, only when externally sourced models used",
+   "statement": "For externally sourced models deployed in production applications, the model card is reviewed before deployment.",
+   "note": "Applies to externally sourced models in production. AI application provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "SC-02[1]",
+     "text": "Model card reviewed before deployment",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "SC-03",
+   "hitrust_id": "14.05kAISecOrganizational.1",
+   "topic_code": "SC",
+   "topic": "AI supply chain",
+   "title": "AI security requirements communicated to AI providers",
+   "domain": "14 Third Party Assurance",
+   "control_ref": "05.k Addressing Security in Third Party Agreements",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Agreements with external providers of AI system components and services clearly communicate the organization's AI security requirements.",
+   "note": "Joint responsibility, normally through a jointly executed agreement.",
+   "elements": [
+    {
+     "id": "SC-03[1]",
+     "text": "Agreements with model providers",
+     "cond": null
+    },
+    {
+     "id": "SC-03[2]",
+     "text": "Agreements with dataset providers",
+     "cond": null
+    },
+    {
+     "id": "SC-03[3]",
+     "text": "Agreements with software package providers",
+     "cond": null
+    },
+    {
+     "id": "SC-03[4]",
+     "text": "Agreements with platform and infrastructure providers",
+     "cond": null
+    },
+    {
+     "id": "SC-03[5]",
+     "text": "Agreements with language model tool providers",
+     "cond": "tools"
+    },
+    {
+     "id": "SC-03[6]",
+     "text": "Agreements for contracted AI system services",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "MR-01",
+   "hitrust_id": "19.13jAISecOrganizational.1",
+   "topic_code": "MR",
+   "topic": "Model robustness",
+   "title": "Data minimization or anonymization",
+   "domain": "19 Data Protection & Privacy",
+   "control_ref": "13.j Data Minimization",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": "q2",
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative), Q2 yes (sensitive data used to train/tune/RAG)",
+   "statement": "Data used for training, fine-tuning, and RAG prompt enhancement is reviewed to find fields or records that can be removed or anonymized to prevent leakage, and findings are acted on.",
+   "note": "Only when confidential or sensitive data was used to train, tune, or enhance prompts (tailoring Q2). Not for rule-based-only systems. Fully inheritable.",
+   "elements": [
+    {
+     "id": "MR-01[1]",
+     "text": "Training data reviewed and minimized/anonymized",
+     "cond": null
+    },
+    {
+     "id": "MR-01[2]",
+     "text": "Fine-tuning data reviewed and minimized/anonymized",
+     "cond": "finetune"
+    },
+    {
+     "id": "MR-01[3]",
+     "text": "RAG data reviewed and minimized/anonymized",
+     "cond": "rag"
+    }
+   ]
+  },
+  {
+   "id": "MR-02",
+   "hitrust_id": "07.10mAISecOrganizational.3",
+   "topic_code": "MR",
+   "topic": "Model robustness",
+   "title": "Limit output specificity and precision",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.m Control of Technical Vulnerabilities",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": "q2_or_q3",
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative), Q2 or Q3 yes",
+   "statement": "The precision and specificity of AI outputs are reduced to limit an adversary's ability to extract information from the model or optimize attacks.",
+   "note": "Only when sensitive data was used (Q2) or the model architecture is confidential (Q3). AI application provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "MR-02[1]",
+     "text": "Output precision reduced (e.g., rounded confidence values)",
+     "cond": null
+    },
+    {
+     "id": "MR-02[2]",
+     "text": "Output specificity reduced (e.g., coarser class labels)",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "MR-03",
+   "hitrust_id": "17.03bAISecOrganizational.3",
+   "topic_code": "MR",
+   "topic": "Model robustness",
+   "title": "Additional training data measures",
+   "domain": "17 Risk Management",
+   "control_ref": "03.b Performing Risk Assessments",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "predictive (non-generative ML) only",
+   "statement": "The organization evaluates whether additional training-data measures (e.g., adversarial training) are needed to make its ML models resistant to evasion and poisoning, documents the evaluation, repeats it at least semiannually and after AI security incidents, and implements the measures deemed necessary.",
+   "note": "Non-generative (predictive) ML only. Fully inheritable (AI model creator).",
+   "elements": [
+    {
+     "id": "MR-03[1]",
+     "text": "Evaluation documented",
+     "cond": null
+    },
+    {
+     "id": "MR-03[2]",
+     "text": "Evaluation performed at least semiannually",
+     "cond": null
+    },
+    {
+     "id": "MR-03[3]",
+     "text": "Evaluation revisited after AI-related security incidents",
+     "cond": null
+    },
+    {
+     "id": "MR-03[4]",
+     "text": "Necessary measures implemented",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-01",
+   "hitrust_id": "19.09zAISecOrganizational.1",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Limit the release of technical information about the AI system",
+   "domain": "19 Data Protection & Privacy",
+   "control_ref": "09.z Publicly Available Information",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": "q3",
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative), Q3 yes (confidential model architecture)",
+   "statement": "The release of technical AI project details is limited: architecture, datasets, algorithms, language model tools, safety and security checkpoints, and team information.",
+   "note": "Only when model architectures are confidential to the organization (Q3). Dual responsibility.",
+   "elements": [
+    {
+     "id": "AX-01[1]",
+     "text": "Overall technical architecture",
+     "cond": null
+    },
+    {
+     "id": "AX-01[2]",
+     "text": "Training/testing/validation/tuning datasets of confidential or closed-source models",
+     "cond": null
+    },
+    {
+     "id": "AX-01[3]",
+     "text": "RAG datasets",
+     "cond": "rag"
+    },
+    {
+     "id": "AX-01[4]",
+     "text": "Algorithms of confidential or closed-source models",
+     "cond": null
+    },
+    {
+     "id": "AX-01[5]",
+     "text": "Architecture of confidential or closed-source models",
+     "cond": null
+    },
+    {
+     "id": "AX-01[6]",
+     "text": "Language model tools",
+     "cond": "tools"
+    },
+    {
+     "id": "AX-01[7]",
+     "text": "Safety and security checkpoints",
+     "cond": null
+    },
+    {
+     "id": "AX-01[8]",
+     "text": "Teams that develop and support the system",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-02",
+   "hitrust_id": "07.10mAISecOrganizational.5",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Model rate limiting / throttling",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.m Control of Technical Vulnerabilities",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "The total number and the rate of API calls a user can make to the AI model over a period are limited, to resist denial of service and hinder attack experimentation.",
+   "note": "Partially inheritable (AI application and AI platform providers).",
+   "elements": [
+    {
+     "id": "AX-02[1]",
+     "text": "Total API calls per user per period limited",
+     "cond": null
+    },
+    {
+     "id": "AX-02[2]",
+     "text": "Rate of API calls per user limited",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-03",
+   "hitrust_id": "11.01cAISecSystem.5",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "GenAI model least privilege",
+   "domain": "11 Access Control",
+   "control_ref": "01.c Privilege Management",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "generative only",
+   "statement": "The data and capabilities granted to generative models, including through agents and plugins, are restricted to least privilege and governed by the access management and authentication policies.",
+   "note": "Generative AI only. AI application provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "AX-03[1]",
+     "text": "Generative model data access least privilege (incl. via agents/plugins)",
+     "cond": null
+    },
+    {
+     "id": "AX-03[2]",
+     "text": "Generative model capabilities least privilege (incl. via agents/plugins)",
+     "cond": null
+    },
+    {
+     "id": "AX-03[3]",
+     "text": "Access governed by access management policy (approvals, revocations, reviews)",
+     "cond": null
+    },
+    {
+     "id": "AX-03[4]",
+     "text": "Access governed by authentication policy",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-04",
+   "hitrust_id": "11.01cAISecSystem.6",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Restrict access to data used for AI",
+   "domain": "11 Access Control",
+   "control_ref": "01.c Privilege Management",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "Access to training, testing, validation, fine-tuning, and RAG data (original and embedded) is restricted to least privilege under the access management policy and MFA-level authentication.",
+   "note": "ML models only. Fully inheritable; may be the model creator's sole responsibility.",
+   "elements": [
+    {
+     "id": "AX-04[1]",
+     "text": "Training/testing/validation data access least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-04[2]",
+     "text": "Fine-tuning data access least privilege",
+     "cond": "finetune"
+    },
+    {
+     "id": "AX-04[3]",
+     "text": "Original (non-vectorized) RAG data access least privilege",
+     "cond": "rag"
+    },
+    {
+     "id": "AX-04[4]",
+     "text": "RAG embeddings access least privilege",
+     "cond": "rag"
+    },
+    {
+     "id": "AX-04[5]",
+     "text": "Access governed by access management policy",
+     "cond": null
+    },
+    {
+     "id": "AX-04[6]",
+     "text": "Access governed by authentication policy (MFA or equivalent)",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-05",
+   "hitrust_id": "11.01cAISecSystem.7",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Restrict access to AI models",
+   "domain": "11 Access Control",
+   "control_ref": "01.c Privilege Management",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "The ability to access and modify deployed AI models is restricted to least privilege under the access management policy and MFA-level authentication.",
+   "note": "ML models only. Fully inheritable; may be the AI platform provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "AX-05[1]",
+     "text": "Access to and modification of deployed models least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-05[2]",
+     "text": "Access governed by access management policy",
+     "cond": null
+    },
+    {
+     "id": "AX-05[3]",
+     "text": "Access governed by authentication policy (MFA or equivalent)",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-06",
+   "hitrust_id": "11.01cAISecSystem.8",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Restrict access to interact with the AI model",
+   "domain": "11 Access Control",
+   "control_ref": "01.c Privilege Management",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "The ability to interact with the production model through APIs, the AI application, and agents/plugins is restricted to least privilege under the access management and authentication policies.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "AX-06[1]",
+     "text": "Interaction via APIs least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-06[2]",
+     "text": "Interaction via the AI application least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-06[3]",
+     "text": "Interaction via agents/plugins least privilege",
+     "cond": "tools"
+    },
+    {
+     "id": "AX-06[4]",
+     "text": "Access governed by access management policy",
+     "cond": null
+    },
+    {
+     "id": "AX-06[5]",
+     "text": "Access governed by authentication policy",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "AX-07",
+   "hitrust_id": "11.01cAISecSystem.9",
+   "topic_code": "AX",
+   "topic": "Access to the AI system",
+   "title": "Restrict access to the AI engineering environment and AI code",
+   "domain": "11 Access Control",
+   "control_ref": "01.c Privilege Management",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Access to AI engineering environments, code that creates, trains, or deploys models, and agent/plugin code is restricted to least privilege under the access management policy and MFA-level authentication.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "AX-07[1]",
+     "text": "AI engineering environment access least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-07[2]",
+     "text": "Model create/train/deploy code access least privilege",
+     "cond": null
+    },
+    {
+     "id": "AX-07[3]",
+     "text": "Agent/plugin code access least privilege",
+     "cond": "tools"
+    },
+    {
+     "id": "AX-07[4]",
+     "text": "Access governed by access management policy",
+     "cond": null
+    },
+    {
+     "id": "AX-07[5]",
+     "text": "Access governed by authentication policy (MFA or equivalent)",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "EN-01",
+   "hitrust_id": "09.09sAISecOrganizational.1",
+   "topic_code": "EN",
+   "topic": "Encryption of AI assets",
+   "title": "Encrypt traffic to and from the AI model",
+   "domain": "09 Transmission Protection",
+   "control_ref": "09.s Information Exchange Policies and Procedures",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Communication channels between the model and the interface that displays its outputs are encrypted with secure protocols such as TLS.",
+   "note": "Fully inheritable; may be the AI application provider's sole responsibility.",
+   "elements": [
+    {
+     "id": "EN-01[1]",
+     "text": "Model-to-interface channels encrypted with secure protocols",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "EN-02",
+   "hitrust_id": "11.01vAISecSystem.1",
+   "topic_code": "EN",
+   "topic": "Encryption of AI assets",
+   "title": "Encrypt AI assets at rest",
+   "domain": "11 Access Control",
+   "control_ref": "01.v Information Access Restriction",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": "q2_or_q3",
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative), Q2 or Q3 yes",
+   "statement": "Training, testing, validation and fine-tuning datasets, embeddings, and models are encrypted at rest in line with the organization's encryption strength and key management policies.",
+   "note": "Only when sensitive data was used (Q2) or the architecture is confidential (Q3). Fully inheritable.",
+   "elements": [
+    {
+     "id": "EN-02[1]",
+     "text": "Training/testing/validation data encrypted at rest",
+     "cond": null
+    },
+    {
+     "id": "EN-02[2]",
+     "text": "Fine-tuning data encrypted at rest",
+     "cond": "finetune"
+    },
+    {
+     "id": "EN-02[3]",
+     "text": "Embeddings encrypted at rest",
+     "cond": "rag"
+    },
+    {
+     "id": "EN-02[4]",
+     "text": "Models encrypted at rest",
+     "cond": null
+    },
+    {
+     "id": "EN-02[5]",
+     "text": "Encryption strength follows policy",
+     "cond": null
+    },
+    {
+     "id": "EN-02[6]",
+     "text": "Key management follows policy",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "LM-01",
+   "hitrust_id": "12.09abAISecSystem.6",
+   "topic_code": "LM",
+   "topic": "AI system logging and monitoring",
+   "title": "Log AI system inputs and outputs",
+   "domain": "12 Audit Logging & Monitoring",
+   "control_ref": "09.aa Audit Logging",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Every model input and output is logged with the exact content, timestamp, requesting account, request origin, and model version, and the logs are retained, protected, and sanitized under policy.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "LM-01[1]",
+     "text": "Exact input logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[2]",
+     "text": "Date and time of input logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[3]",
+     "text": "Requesting user account logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[4]",
+     "text": "Request origin logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[5]",
+     "text": "Exact output logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[6]",
+     "text": "Model version logged",
+     "cond": null
+    },
+    {
+     "id": "LM-01[7]",
+     "text": "Logs retained, protected, and sanitized per policy",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "LM-02",
+   "hitrust_id": "12.09abAISecSystem.4",
+   "topic_code": "LM",
+   "topic": "AI system logging and monitoring",
+   "title": "Monitor AI system inputs and outputs",
+   "domain": "12 Audit Logging & Monitoring",
+   "control_ref": "09.ab Monitoring System Use",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "At least monthly, model inputs and outputs are monitored for signs of attack or compromise, and filters and guardrails are confirmed to work as intended.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "LM-02[1]",
+     "text": "Inputs monitored at least monthly and input filters confirmed working",
+     "cond": null
+    },
+    {
+     "id": "LM-02[2]",
+     "text": "Outputs monitored at least monthly and output filters confirmed working",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "LM-03",
+   "hitrust_id": "12.09abAISecSystem.5",
+   "topic_code": "LM",
+   "topic": "AI system logging and monitoring",
+   "title": "Monitoring data, models, and configurations for suspicious changes",
+   "domain": "12 Audit Logging & Monitoring",
+   "control_ref": "09.ab Monitoring System Use",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "At least monthly, AI datasets, models, AI-relevant code (including agent and plugin code), and AI configurations such as metaprompts are checked for suspicious manipulation.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "LM-03[1]",
+     "text": "AI datasets monitored monthly for manipulation",
+     "cond": null
+    },
+    {
+     "id": "LM-03[2]",
+     "text": "AI models monitored monthly for manipulation",
+     "cond": null
+    },
+    {
+     "id": "LM-03[3]",
+     "text": "AI-relevant code monitored monthly for manipulation",
+     "cond": null
+    },
+    {
+     "id": "LM-03[4]",
+     "text": "AI configurations (e.g., metaprompts) monitored monthly for manipulation",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "IN-01",
+   "hitrust_id": "07.07aAISecOrganizational.3",
+   "topic_code": "IN",
+   "topic": "Documenting and inventorying AI systems",
+   "title": "Inventory deployed AI systems",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "07.a Inventory of Assets",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "A documented inventory of deployed AI systems lists AI platforms, model names and versions, system owner, sensitivity/risk categorization, and AI service providers, and is reviewed and updated at least semiannually.",
+   "note": "Dual responsibility. The spec's statement says semiannual; its illustrative procedure says annual. Assess to semiannual.",
+   "elements": [
+    {
+     "id": "IN-01[1]",
+     "text": "Inventory lists AI platforms",
+     "cond": null
+    },
+    {
+     "id": "IN-01[2]",
+     "text": "Inventory lists models with name and version",
+     "cond": null
+    },
+    {
+     "id": "IN-01[3]",
+     "text": "Inventory lists the system owner",
+     "cond": null
+    },
+    {
+     "id": "IN-01[4]",
+     "text": "Inventory lists sensitivity or risk categorization",
+     "cond": null
+    },
+    {
+     "id": "IN-01[5]",
+     "text": "Inventory lists AI service providers",
+     "cond": null
+    },
+    {
+     "id": "IN-01[6]",
+     "text": "Inventory reviewed and updated at least semiannually",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "IN-02",
+   "hitrust_id": "07.07aAISecOrganizational.4",
+   "topic_code": "IN",
+   "topic": "Documenting and inventorying AI systems",
+   "title": "Maintain a catalog of trusted data sources for AI",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "07.a Inventory of Assets",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "A catalog of trusted data sources for training, testing, validation, fine-tuning, and RAG prompt enhancement is maintained and reviewed at least semiannually.",
+   "note": "ML models only. Fully inheritable; may be the model creator's sole responsibility.",
+   "elements": [
+    {
+     "id": "IN-02[1]",
+     "text": "Trusted sources cataloged for training/testing/validation data",
+     "cond": null
+    },
+    {
+     "id": "IN-02[2]",
+     "text": "Trusted sources cataloged for fine-tuning data",
+     "cond": "finetune"
+    },
+    {
+     "id": "IN-02[3]",
+     "text": "Trusted sources cataloged for RAG data",
+     "cond": "rag"
+    },
+    {
+     "id": "IN-02[4]",
+     "text": "Catalog reviewed and updated at least semiannually",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "IN-03",
+   "hitrust_id": "07.07aAISecOrganizational.5",
+   "topic_code": "IN",
+   "topic": "Documenting and inventorying AI systems",
+   "title": "AI data and data supply inventory",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "07.a Inventory of Assets",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "A documented inventory of data used for training, testing, validation, fine-tuning, and RAG records each source's provenance and sensitivity level and is reviewed at least semiannually.",
+   "note": "ML models only. Fully inheritable.",
+   "elements": [
+    {
+     "id": "IN-03[1]",
+     "text": "Inventory covers training/testing/validation data",
+     "cond": null
+    },
+    {
+     "id": "IN-03[2]",
+     "text": "Inventory covers fine-tuning data",
+     "cond": "finetune"
+    },
+    {
+     "id": "IN-03[3]",
+     "text": "Inventory covers RAG data",
+     "cond": "rag"
+    },
+    {
+     "id": "IN-03[4]",
+     "text": "Inventory records provenance",
+     "cond": null
+    },
+    {
+     "id": "IN-03[5]",
+     "text": "Inventory records sensitivity level",
+     "cond": null
+    },
+    {
+     "id": "IN-03[6]",
+     "text": "Inventory reviewed and updated at least semiannually",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "IN-04",
+   "hitrust_id": "06.10hAISecSystem.4",
+   "topic_code": "IN",
+   "topic": "Documenting and inventorying AI systems",
+   "title": "Model card publication (for model builders)",
+   "domain": "06 Configuration Management",
+   "control_ref": "10.h Control of Operational Software",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": "model_builder"
+   },
+   "applies_text": "ML models (predictive, generative), only when the organization builds models",
+   "statement": "Model builders publish a model card for each model they produce, covering model details, intended use, training details, evaluation details, and caveats and recommendations.",
+   "note": "ML models only; applies only to organizations that build models.",
+   "elements": [
+    {
+     "id": "IN-04[1]",
+     "text": "Model card includes model details",
+     "cond": null
+    },
+    {
+     "id": "IN-04[2]",
+     "text": "Model card includes intended use",
+     "cond": null
+    },
+    {
+     "id": "IN-04[3]",
+     "text": "Model card includes training details",
+     "cond": null
+    },
+    {
+     "id": "IN-04[4]",
+     "text": "Model card includes evaluation details",
+     "cond": null
+    },
+    {
+     "id": "IN-04[5]",
+     "text": "Model card includes caveats and recommendations",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "FS-01",
+   "hitrust_id": "07.10bAISecSystem.2",
+   "topic_code": "FS",
+   "topic": "Filtering and sanitizing AI data, inputs, and outputs",
+   "title": "Dataset sanitization",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.b Input Data Validation",
+   "inheritance": "Fully",
+   "applies": {
+    "models": [
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "ML models (predictive, generative)",
+   "statement": "Data used for training, fine-tuning, and RAG is checked before use for suspicious or adversarial patterns such as poisoned samples, and anomalous entries are removed.",
+   "note": "ML models only. Fully inheritable.",
+   "elements": [
+    {
+     "id": "FS-01[1]",
+     "text": "Training data checked before use",
+     "cond": null
+    },
+    {
+     "id": "FS-01[2]",
+     "text": "Fine-tuning data checked before use",
+     "cond": "finetune"
+    },
+    {
+     "id": "FS-01[3]",
+     "text": "RAG data checked before use",
+     "cond": "rag"
+    },
+    {
+     "id": "FS-01[4]",
+     "text": "Suspicious entries removed",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "FS-02",
+   "hitrust_id": "07.10bAISecSystem.1",
+   "topic_code": "FS",
+   "topic": "Filtering and sanitizing AI data, inputs, and outputs",
+   "title": "Input filtering",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.b Input Data Validation",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Before inputs reach the model, user inputs of any modality or source (including attachments) are actively filtered for suspicious or unexpected values or patterns that could be adversarial.",
+   "note": "Partially inheritable (AI platform provider, if used, and AI application provider).",
+   "elements": [
+    {
+     "id": "FS-02[1]",
+     "text": "User inputs filtered for suspicious or unexpected patterns before model processing",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "FS-03",
+   "hitrust_id": "07.10mAISecOrganizational.4",
+   "topic_code": "FS",
+   "topic": "Filtering and sanitizing AI data, inputs, and outputs",
+   "title": "Output encoding",
+   "domain": "07 Vulnerability Management",
+   "control_ref": "10.m Control of Technical Vulnerabilities",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "generative only",
+   "statement": "Textual model output is encoded to prevent traditional injection attacks such as remote code execution.",
+   "note": "Generative AI only. Partially inheritable.",
+   "elements": [
+    {
+     "id": "FS-03[1]",
+     "text": "Output encoding applied to textual model output",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "FS-04",
+   "hitrust_id": "07.10eAISecSystem.1",
+   "topic_code": "FS",
+   "topic": "Filtering and sanitizing AI data, inputs, and outputs",
+   "title": "Output filtering",
+   "domain": "19 Data Protection & Privacy",
+   "control_ref": "13.k Use and Disclosure",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "generative only",
+   "statement": "Unless specifically required otherwise, sensitive data (e.g., personal phone numbers) in generative model output is filtered or prevented from reaching end users.",
+   "note": "Generative AI only. Partially inheritable.",
+   "elements": [
+    {
+     "id": "FS-04[1]",
+     "text": "Sensitive data filtered or prevented in generative output",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "RS-01",
+   "hitrust_id": "15.11cAISecOrganizational.1",
+   "topic_code": "RS",
+   "topic": "Resilience of the AI system",
+   "title": "Updating incident response for AI specifics",
+   "domain": "15 Incident Management",
+   "control_ref": "11.c Responsibilities and Procedures",
+   "inheritance": "No",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Incident detection and response addresses AI-specific threats (e.g., poisoning, evasion) through updated plans and playbooks, AI-focused tabletop exercises, recorded AI incidents, and logs and alerts from deployed AI systems feeding monitoring and detection tools.",
+   "note": "Dual responsibility.",
+   "elements": [
+    {
+     "id": "RS-01[1]",
+     "text": "Incident plans/playbooks updated for AI-specific threats",
+     "cond": null
+    },
+    {
+     "id": "RS-01[2]",
+     "text": "AI-specific threats included in tabletop exercises",
+     "cond": null
+    },
+    {
+     "id": "RS-01[3]",
+     "text": "Specifics of AI security incidents recorded",
+     "cond": null
+    },
+    {
+     "id": "RS-01[4]",
+     "text": "AI system logs feed monitoring/detection tools",
+     "cond": null
+    },
+    {
+     "id": "RS-01[5]",
+     "text": "AI system alerts feed monitoring/detection tools",
+     "cond": null
+    }
+   ]
+  },
+  {
+   "id": "RS-02",
+   "hitrust_id": "16.09lAISecOrganizational.1",
+   "topic_code": "RS",
+   "topic": "Resilience of the AI system",
+   "title": "Backing up AI system assets",
+   "domain": "16 Business Continuity & Disaster Recovery",
+   "control_ref": "09.l Back-up",
+   "inheritance": "Partially",
+   "applies": {
+    "models": [
+     "rule",
+     "predictive",
+     "generative"
+    ],
+    "trigger": null,
+    "requires": null
+   },
+   "applies_text": "all model types",
+   "statement": "Backups are made of AI training, test and validation data, model creation and deployment code, fine-tuning data, models, language model tools, AI configurations, and RAG data, and are managed under the backup policies.",
+   "note": "Partially inheritable.",
+   "elements": [
+    {
+     "id": "RS-02[1]",
+     "text": "Training/test/validation datasets backed up",
+     "cond": null
+    },
+    {
+     "id": "RS-02[2]",
+     "text": "Model create/train/deploy code backed up",
+     "cond": null
+    },
+    {
+     "id": "RS-02[3]",
+     "text": "Fine-tuning data backed up",
+     "cond": "finetune"
+    },
+    {
+     "id": "RS-02[4]",
+     "text": "Models backed up",
+     "cond": null
+    },
+    {
+     "id": "RS-02[5]",
+     "text": "Language model tools backed up",
+     "cond": "tools"
+    },
+    {
+     "id": "RS-02[6]",
+     "text": "AI configurations (e.g., metaprompts) backed up",
+     "cond": null
+    },
+    {
+     "id": "RS-02[7]",
+     "text": "RAG prompt-enhancement data backed up",
+     "cond": "rag"
+    },
+    {
+     "id": "RS-02[8]",
+     "text": "Backups managed under data and software backup policies",
+     "cond": null
+    }
+   ]
+  }
+ ],
+ "cond_text": {
+  "finetune": "if fine-tuning",
+  "rag": "if RAG",
+  "tools": "if agents/plugins",
+  "external_models": "if external models"
+ },
+ "requires_text": {
+  "null": "",
+  "tools": "agents/plugins/language model tools used",
+  "external_models": "externally sourced models used",
+  "model_builder": "the organization builds models"
+ }
+}

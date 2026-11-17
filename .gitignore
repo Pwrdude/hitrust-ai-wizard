@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*-assessment.json
+*-questionnaire.html
+*-questionnaire-seed/
+answers-*/
+.DS_Store
