@@ -39,3 +39,6 @@ A readiness assistant for the HITRUST AI Security Assessment: **ai2** (added to 
 
 ## Data
 See `skills/hitrust-ai-assess/references/SOURCES.md`. Re-verify requirement text and tailoring against the current HITRUST specification and the client's MyCSF object before a validated assessment.
+
+## License
+MIT. See `LICENSE`. HITRUST and HITRUST CSF are trademarks of HITRUST Services Corp.; this project is independent and not endorsed by HITRUST. Requirement text is paraphrased from HITRUST's public AI Security Assessment specification.
